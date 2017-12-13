@@ -1,11 +1,16 @@
 package webapp.storage;
 import webapp.model.Resume;
+import java.util.Arrays;
 
 /*** Array based storage for Resumes */
 public class ArrayStorage {
+    private static final int STORAGE_LIMIT = 10000;
+    private Resume[] storage = new Resume[STORAGE_LIMIT];
+    private int size;
 
-    private final Resume[] storage = new Resume[10000];
-    private int size = 0;
+    public ArrayStorage() {
+        size = 0;
+    }
 
     public void clear() {
         for (int i = 0; i < size; i++) storage[i] = null;
@@ -25,7 +30,7 @@ public class ArrayStorage {
     public void save(Resume r) {
         if (getIndex(r.getUuid()) != -1) {
                         System.out.println("Resume " + r.getUuid() + " already exist");
-                    } else if (size >= storage.length) {
+                    } else if (size >= STORAGE_LIMIT) {
                         System.out.println("Storage overflow");
                     } else {
                         storage[size] = r;
