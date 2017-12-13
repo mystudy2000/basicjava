@@ -3,14 +3,7 @@ import webapp.model.Resume;
 import java.util.Arrays;
 
 /*** Array based storage for Resumes */
-public class ArrayStorage implements Storage {
-    private static final int STORAGE_LIMIT = 10000;
-    private Resume[] storage = new Resume[STORAGE_LIMIT];
-    private int size;
-
-    public ArrayStorage() {
-        size = 0;
-    }
+    public class ArrayStorage extends AbstractArrayStorage {
 
     public void clear() {
         for (int i = 0; i < size; i++) storage[i] = null;
@@ -39,15 +32,6 @@ public class ArrayStorage implements Storage {
 
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index == -1) {
-            System.out.println("Resume " + uuid + " not exist");
-            return storage[index];
-
-        }
-        return storage[index];
-    }
         public void delete (String uuid){
             int index = getIndex (uuid);
             if (index == -1) {
@@ -64,9 +48,7 @@ public class ArrayStorage implements Storage {
          */
 
         public Resume[] getAll () {
-            Resume[] result = new Resume[size];
-            System.arraycopy(storage, 0, result, 0, size);
-            return result;
+            return Arrays.copyOfRange(storage, 0, size);
 
         }
 
@@ -74,7 +56,7 @@ public class ArrayStorage implements Storage {
             return size;
         }
 
-        private int getIndex(String uuid) {
+        protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;
