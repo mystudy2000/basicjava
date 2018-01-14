@@ -1,13 +1,15 @@
 package webapp.exceptions;
-public class StorageException extends RuntimeException {
-    private final String uuid;
+public class StorageException extends Exception {
+    private int errCode;
 
-    public StorageException(String message, String uuid) {
+    public StorageException(String message, int errCode) {
         super(message);
-        this.uuid = uuid;
+        this.errCode = errCode;
     }
 
-    public String getUuid() {
-        return uuid;
+    public int getErrocde() {
+        return errCode;
     }
+    public void setErrCode(int errCode) {this.errCode = errCode;}
+
 }

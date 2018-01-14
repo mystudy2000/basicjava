@@ -1,4 +1,5 @@
 package webapp;
+import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 import webapp.storage.ArrayStorage;
 import webapp.storage.Storage;
@@ -6,51 +7,59 @@ import webapp.storage.Storage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.UUID;
 
 /*** Test for ArrayStorage **/
 class MainArray {
 
     private final static Storage ARRAY_STORAGE = new ArrayStorage();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, StorageException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {
-            System.out.print("Введите одну из команд - (list | save uuid | delete uuid | get uuid | update uuid | clear | exit): ");
+            System.out.println("Проверка методов Resume - сохранение нового резюме по fullname, а удаление, выборка по uuid и также модификация fullname по uuid ");
+            System.out.print("Введите команды - (save fullname | delete uuid | get uuid | update uuid fullname | clear | size | list | exit): ");
             String[] params = reader.readLine().trim().toLowerCase().split(" ");
-            if (params.length < 1 || params.length > 2) {
+            if (params.length < 1 || params.length > 3) {
                 System.out.println("Неверная команда.");
                 continue;
             }
-            String uuid = null;
-            if (params.length == 2) {
-                uuid = params[1].intern();
-            }
+
             switch (params[0]) {
                 case "list":
+                    // вывод всех записей
                     printAll();
                     break;
                 case "size":
-                    System.out.println(ARRAY_STORAGE.size());
+                    // общее количество сохраненных записей
+                    System.out.println("Размер: "+ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume(uuid);
+                    // сохранение новой записи fullname. uuid создается программно.
+                    r = new Resume(params[1]);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
                 case "update":
-                    r = new Resume(uuid);
-                    ARRAY_STORAGE.update(r);
+                    // модификация записи с ключом uuid (param 1) новым значением fullname (param 2)
+                    // r = new Resume(params[1]);
+                    ARRAY_STORAGE.update(UUID.fromString(params[1]),params[2]);
                     printAll();
                     break;
                 case "delete":
-                    ARRAY_STORAGE.delete(uuid);
+                    // удаление записи по значению uuid
+                    ARRAY_STORAGE.delete(UUID.fromString(params[1]));
+                    System.out.println("Запись удалена " + params[1]);
                     printAll();
                     break;
                 case "get":
-                    System.out.println(ARRAY_STORAGE.get(uuid));
+                    // выбор записи по значению uuid
+                    System.out.println(ARRAY_STORAGE.get(UUID.fromString(params[1])));
+
                     break;
                 case "clear":
+                    // удаление всех записей - очистка
                     ARRAY_STORAGE.clear();
                     printAll();
                     break;
@@ -70,7 +79,7 @@ class MainArray {
             System.out.println("Empty");
         } else {
             for (Resume r : all) {
-                System.out.println(r);
+                System.out.print("UUID="+r.uuid);System.out.println(" Full name:"+r.fullName);
             }
         }
         System.out.println("----------------------------");

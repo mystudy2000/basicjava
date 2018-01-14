@@ -1,6 +1,7 @@
 package webapp.storage;
 import webapp.model.Resume;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class SortedArrayStorage extends AbstractArrayStorage{
 
@@ -20,7 +21,7 @@ public class SortedArrayStorage extends AbstractArrayStorage{
     }
 
     @Override
-    protected int getIndex(String uuid) {
+    protected int getIndex(UUID uuid) {
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }

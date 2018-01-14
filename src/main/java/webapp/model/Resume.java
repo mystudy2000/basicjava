@@ -3,14 +3,35 @@ import java.util.UUID;
 
 /*** Resume class */
 public class Resume  implements Comparable<Resume>  {
+    // Resume = structure of
+    //          uuid     string
+    //          fullName string
+public  UUID   uuid;
+public  String fullName;
 
-    // Unique identifier
-public  String uuid;
-public  Resume() { this(UUID.randomUUID().toString());}
-public  Resume(String uuid)  {this.uuid = uuid;}
-public String getUuid() { return uuid; }
-public void setUuid(String uuid) {this.uuid = uuid;}
+    // Constructor One = empty resume
+public Resume() {
+    this.fullName="empty";
+    this.uuid = UUID.randomUUID();
+}
+   // Constructor Two = new resume for new fullname, UUID created randomly (type 4) and automatically
+public Resume(String fullName) {
+        this.fullName=fullName;
+        this.uuid = UUID.randomUUID();
+}
+  // Constructor Three =
+public Resume(UUID uuid, String fullName) {
+        this.fullName=fullName;
+        this.uuid = uuid;
+    }
 
+    public Resume(UUID uuid)  {
+    this.fullName="empty";
+    this.uuid = uuid;
+    }
+
+    // Methods
+    public UUID getUuid() { return uuid; }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -24,9 +45,8 @@ public void setUuid(String uuid) {this.uuid = uuid;}
     }
     @Override
     public String toString() {
-        return uuid;
+        return String.valueOf(uuid);
     }
-
     @Override
     public int compareTo(Resume o) {
         return uuid.compareTo(o.uuid);
