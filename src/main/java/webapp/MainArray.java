@@ -43,8 +43,9 @@ class MainArray {
                     break;
                 case "update":
                     // модификация записи с ключом uuid (param 1) новым значением fullname (param 2)
-                    // r = new Resume(params[1]);
-                    ARRAY_STORAGE.update(UUID.fromString(params[1]),params[2]);
+                    r = new Resume();
+                    r.fullName=params[2];
+                    ARRAY_STORAGE.update(UUID.fromString(params[1]),r);
                     printAll();
                     break;
                 case "delete":

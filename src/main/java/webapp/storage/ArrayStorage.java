@@ -1,8 +1,6 @@
 package webapp.storage;
 import webapp.model.Resume;
 
-import java.util.UUID;
-
 /*** Array based storage for Resumes */
     public class ArrayStorage extends AbstractArrayStorage {
 
@@ -14,16 +12,7 @@ import java.util.UUID;
     protected void insertElement(Resume r, int index) {
         storage[size] = r;
     }
-    @Override
 
-    protected int getIndex(UUID uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].getUuid())) {
-                return i;
-            }
-        }
-            return -1;
-    }
 }
 
 
