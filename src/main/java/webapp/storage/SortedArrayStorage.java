@@ -3,9 +3,19 @@ package webapp.storage;
 import webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.UUID;
 
 public class SortedArrayStorage extends AbstractArrayStorage{
+
+
+    private static final Comparator<Resume> RESUME_COMPARATOR = new Comparator<Resume>() {
+    @Override
+        public int compare(Resume o1, Resume o2) {
+        return o1.getUuid().compareTo(o2.getUuid());
+        }
+    };
+
 
     @Override
     protected void doSave(Resume r) {
@@ -34,6 +44,6 @@ public class SortedArrayStorage extends AbstractArrayStorage{
     @Override
     protected Integer getSearchKey(UUID uuid) {
         Resume Sk = new Resume(uuid,"dummy");
-        return Arrays.binarySearch(storage, 0, size, Sk);
+        return Arrays.binarySearch(storage, 0, size, Sk, RESUME_COMPARATOR);
     }
 }
