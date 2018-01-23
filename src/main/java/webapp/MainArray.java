@@ -43,8 +43,8 @@ class MainArray {
                     break;
                 case "update":
                     // модификация записи с ключом uuid (param 1) новым значением fullname (param 2)
-                    r = new Resume();
-                    r.fullName=params[2];
+                    String fullName=params[2];
+                    r = new Resume(fullName);
                     ARRAY_STORAGE.update(UUID.fromString(params[1]),r);
                     printAll();
                     break;

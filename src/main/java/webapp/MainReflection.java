@@ -10,7 +10,7 @@ import java.util.UUID;
 public class MainReflection {
 
     public static void main(String[] args) throws IllegalAccessException,NoSuchMethodException, InvocationTargetException {
-        Resume r = new Resume();
+        Resume r = new Resume("dummy");
         Class<? extends Resume> resumeClass = r.getClass();
         Field field = r.getClass().getDeclaredFields()[0];
         field.setAccessible(true);
