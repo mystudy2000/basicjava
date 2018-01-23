@@ -1,4 +1,5 @@
 package webapp;
+
 import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 import webapp.storage.ArrayStorage;
@@ -7,6 +8,7 @@ import webapp.storage.Storage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.UUID;
 
 /*** Test for ArrayStorage **/
@@ -74,13 +76,13 @@ class MainArray {
     }
 
     private static void printAll() {
-        Resume[] all = ARRAY_STORAGE.getAll();
+        List<Resume> all = ARRAY_STORAGE.getAllSorted();
         System.out.println("----------------------------");
-        if (all.length == 0) {
-            System.out.println("Empty");
+        if (all.size() == 0) {
+            System.out.println("Empty storage");
         } else {
             for (Resume r : all) {
-                System.out.print("UUID="+r.uuid);System.out.println(" Full name:"+r.fullName);
+                System.out.print(r.toString());
             }
         }
         System.out.println("----------------------------");

@@ -44,12 +44,11 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return resumeMap.values().toArray(new Resume[resumeMap.size()]);
-    }
+    public List<Resume> doGetAll() {return new ArrayList<>(resumeMap.values());}
 
     @Override
     public int size() {
         return resumeMap.size();
     }
+
 }

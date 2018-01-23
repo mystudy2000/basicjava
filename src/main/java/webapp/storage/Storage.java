@@ -1,7 +1,9 @@
 package webapp.storage;
+
 import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface Storage {
@@ -11,6 +13,6 @@ public interface Storage {
     void     save(Resume r) throws StorageException;
     Resume   get(UUID uuid) throws StorageException;
     void     delete(UUID uuid) throws StorageException;
-    Resume[] getAll();
+    List<Resume> getAllSorted();
     int      size();
 }

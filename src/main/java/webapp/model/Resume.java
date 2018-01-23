@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /*** Resume class */
-public class Resume  {
+public class Resume implements Comparable<Resume> {
 /**  Resume = structure of
              uuid     UUID
              fullName string
@@ -42,4 +42,15 @@ public class Resume  {
     public String toString() {
         return " UUID:"+uuid+" fullName:"+fullName;
     }
+
+    @Override
+    public int compareTo(Resume o) {
+        int result;
+        result=uuid.compareTo(o.uuid);
+        if(result != 0) return result;
+        result=fullName.compareTo(o.fullName);
+        if(result != 0) return result;
+        return 0;
+    }
+
 }

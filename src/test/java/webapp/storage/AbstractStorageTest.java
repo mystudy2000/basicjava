@@ -7,6 +7,7 @@ import org.junit.Test;
 import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -60,12 +61,11 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void storageGetAllTest(){
-        System.out.println("------- Storage method GETALL test --------");
-        Resume[] arrayFromStorage = storage.getAll();
-        assertEquals(storage.size(), arrayFromStorage.length);
-        for (int i = 0; i < storage.size(); i++) {
-            System.out.println(arrayFromStorage[i].toString());
+    public void storageGetAllSortedTest(){
+        System.out.println("------- Storage method GETALLSORTED test --------");
+        List<Resume> ListFromStorage = storage.getAllSorted();
+        assertEquals(storage.size(), ListFromStorage.size());
+        for (Resume r : ListFromStorage ) {System.out.print(r.toString());
         }
     }
 

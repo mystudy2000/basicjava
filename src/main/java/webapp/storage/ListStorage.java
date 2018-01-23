@@ -3,6 +3,7 @@ package webapp.storage;
 import webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ListStorage extends AbstractStorage {
@@ -49,8 +50,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return resumeList.toArray(new Resume[resumeList.size()]);
+    public List<Resume> doGetAll() {
+        return new ArrayList<>(resumeList);
     }
 
     @Override

@@ -4,6 +4,7 @@ import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -19,8 +20,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     public int size() { return size; }
 
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
+    public List<Resume> doGetAll() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 
     public void clear(){

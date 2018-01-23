@@ -3,6 +3,8 @@ package webapp.storage;
 import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class AbstractStorage implements Storage{
@@ -16,6 +18,8 @@ public abstract class AbstractStorage implements Storage{
     protected abstract Resume doGet(UUID uuid);
 
     protected abstract void doDelete(UUID uuid);
+
+    protected abstract List<Resume> doGetAll();
 
     // CRUD methods
     public void update(UUID uuid, Resume r) throws StorageException {
@@ -39,6 +43,12 @@ public abstract class AbstractStorage implements Storage{
         EmptyStorageCheck();
         SearchKeyNotExistCheck(uuid);
         return doGet(uuid);
+    }
+
+    public List<Resume> getAllSorted() {
+        List<Resume> resumeList = doGetAll();
+        Collections.sort(resumeList);
+        return resumeList;
     }
 
     // Search methods
