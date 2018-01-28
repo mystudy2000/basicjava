@@ -21,11 +21,11 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(UUID uuid) { return getSearchKey(uuid) != -1;}
+    protected boolean isExist(Object index) { return (Integer)index!=-1;}
 
     @Override
-    protected void doUpdate(Resume r, UUID uuid) {
-        resumeList.set(getSearchKey(uuid), r);
+    protected void doUpdate(Object SK, Resume r) {
+        resumeList.set((Integer)SK, r);
     }
 
     @Override
@@ -34,13 +34,14 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume doGet(UUID uuid) {
-        return resumeList.get(getSearchKey(uuid));
+    protected Resume doGet(Object SK) {
+        return resumeList.get((Integer)SK);
     }
 
     @Override
-    protected void doDelete(UUID uuid) {
-        resumeList.remove(getSearchKey(uuid).intValue());
+    protected void doDelete(Object SK) {
+        int index = (Integer) SK;
+        resumeList.remove(index);
         resumeList.trimToSize();
     }
 

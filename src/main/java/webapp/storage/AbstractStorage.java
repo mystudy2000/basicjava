@@ -1,5 +1,6 @@
 package webapp.storage;
 
+import com.sun.istack.internal.Nullable;
 import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 
@@ -11,38 +12,43 @@ public abstract class AbstractStorage implements Storage{
 
     public abstract int size();
 
-    protected abstract void doUpdate(Resume r, UUID uuid);
+    protected abstract void doUpdate(Object SK, Resume r);
 
-    protected abstract void doSave(Resume r);
+    protected abstract void doSave(Resume r) throws StorageException;
 
-    protected abstract Resume doGet(UUID uuid);
+    protected abstract Resume doGet(Object SK);
 
-    protected abstract void doDelete(UUID uuid);
+    protected abstract void doDelete(Object SK);
 
     protected abstract List<Resume> doGetAll();
 
     // CRUD methods
+    /** Object searchKey (SK) type =
+     *  if storage = set(array, sorted array, list) then @param SK = integer
+     *  if storage = uuid.hasmap then @param SK = uuid
+     *  if storage = resume.hashmap then @param SK = resume
+     */
     public void update(UUID uuid, Resume r) throws StorageException {
-        if (size()==0) throw new StorageException("Storage is empty!",900);
-        SearchKeyNotExistCheck(uuid);
-        doUpdate(r,uuid);
+        EmptyStorageCheck();
+        Object searchKey = getSearchKeyIfExist(uuid);
+        doUpdate(searchKey,r);
     }
 
     public void save(Resume r) throws StorageException {
-        SearchKeyExistCheck(r.getUuid());
+        SeachKeyNotExistCheck(r.getUuid());
         doSave(r);
     }
 
     public void delete(UUID uuid) throws StorageException {
         EmptyStorageCheck();
-        SearchKeyNotExistCheck(uuid);
-        doDelete(uuid);
+        Object searchKey = getSearchKeyIfExist(uuid);
+        doDelete(searchKey);
     }
 
     public Resume get(UUID uuid) throws StorageException {
         EmptyStorageCheck();
-        SearchKeyNotExistCheck(uuid);
-        return doGet(uuid);
+        Object searchKey = getSearchKeyIfExist(uuid);
+        return doGet(searchKey);
     }
 
     public List<Resume> getAllSorted() {
@@ -51,26 +57,22 @@ public abstract class AbstractStorage implements Storage{
         return resumeList;
     }
 
-    // Search methods
+    @Nullable
     protected abstract Object getSearchKey(UUID uuid);
-
-    protected abstract boolean isExist(UUID uuid);
+    protected abstract boolean isExist(Object SK);
 
     // Exception checks
-
-    void SearchKeyNotExistCheck(UUID uuid) throws StorageException {
-        if (!isExist(uuid)) {
-            throw new StorageException("Search key not found",700);
+    private Object getSearchKeyIfExist(UUID uuid) throws StorageException {
+        Object searchKey = getSearchKey(uuid);
+        if (!isExist(searchKey)) {throw new StorageException("Search key not found",700);}
+        return searchKey;
         }
-    }
 
-    void SearchKeyExistCheck(UUID uuid) throws StorageException {
-        if (isExist(uuid)) {
-            throw new StorageException("Search key duplicated",800);
-        }
-    }
+    private void SeachKeyNotExistCheck(UUID uuid) throws StorageException {
+        Object searchKey = getSearchKey(uuid);
+        if (isExist(searchKey))  throw new StorageException("Search key duplicated",800);}
 
-    void EmptyStorageCheck() throws StorageException {
+    private void EmptyStorageCheck() throws StorageException {
         if (size()==0) throw new StorageException("Storage is empty!",900);
     }
 }

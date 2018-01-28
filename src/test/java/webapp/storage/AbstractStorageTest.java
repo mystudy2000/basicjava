@@ -108,29 +108,29 @@ public abstract class AbstractStorageTest {
         }
 
     @Test(expected = StorageException.class)
-    public void exceptionGetNotExistUuidFromStorageTest() throws Exception {
-        System.out.println("--Exception: get not existed UUID from storage test ---");
+    public void exceptionGetNotExistSKFromStorageTest() throws Exception {
+        System.out.println("--Exception: get not existed Search Key from storage test ---");
         UUID wrongUUID = UUID.randomUUID();
         storage.get(wrongUUID);
     }
 
     @Test(expected = StorageException.class)
-    public void exceptionDeleteNotExistedUuidFromStorageTest() throws Exception {
-        System.out.println("--Exception: delete not existed UUID from storage test ---");
+    public void exceptionDeleteNotExistedSKFromStorageTest() throws Exception {
+        System.out.println("--Exception: delete not existed Search Key from storage test ---");
         UUID wrongUUID = UUID.randomUUID();
         storage.delete(wrongUUID);
     }
 
     @Test(expected = StorageException.class)
-    public void exceptionUpdateNotExistUuidInStorageTest() throws Exception {
-        System.out.println("--Exception: update not existed UUID in storage test ---");
+    public void exceptionUpdateNotExistSKInStorageTest() throws Exception {
+        System.out.println("--Exception: update not existed Search Key in storage test ---");
         UUID wrongUUID = UUID.randomUUID();
         storage.get(wrongUUID);
     }
 
     @Test(expected = StorageException.class)
-    public void exceptionSaveAlreadyExistedUuidInStorageTest() throws Exception {
-        System.out.println("--Exception: save already existed UUID in storage test ---");
+    public void exceptionSaveAlreadyExistedSKInStorageTest() throws Exception {
+        System.out.println("--Exception: save already existed Search Key in storage test ---");
         if (storage.size()>0) storage.save(testArray[0]);
         else System.out.println("Storage length = 0!");
     }
