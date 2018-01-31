@@ -27,7 +27,7 @@ public class SortedArrayStorage extends AbstractArrayStorage{
         System.arraycopy(storage, insertIdx, storage, insertIdx + 1, size - insertIdx);
         storage[insertIdx] = r;
     }
-    
+
     @Override
     protected Integer getSearchKey(UUID uuid) {
         Resume Sk = new Resume(uuid,"dummy");

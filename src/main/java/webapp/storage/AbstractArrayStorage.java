@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage <Integer> {
     static final int STORAGE_LIMIT = 10000;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -30,31 +30,27 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Resume r, Object SK) throws StorageException {
+    protected void doSave(Resume r, Integer SK) throws StorageException {
         StorageOverflowCheck();
-        insertElement(r, (Integer)SK);
+        insertElement(r, SK);
         size++;
     }
 
     @Override
-    protected void doDelete(Object index) {
-        fillDeletedElement((Integer)index);
+    protected void doDelete(Integer SK) {
+        fillDeletedElement(SK);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected Resume doGet(Object index) {
-        return storage[(Integer)index];
-    }
+    protected Resume doGet(Integer SK) { return storage[SK]; }
 
     @Override
-    protected boolean isExist(Object index) { return (Integer)index>=0; }
+    protected boolean isExist(Integer SK) { return SK>=0; }
 
     @Override
-    protected void doUpdate( Object index, Resume r){
-        storage[(Integer) index]=r;
-    }
+    protected void doUpdate( Integer SK, Resume r){ storage[SK]=r; }
 
     @Override
     protected Integer getSearchKey(UUID uuid) {

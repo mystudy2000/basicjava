@@ -8,17 +8,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class AbstractStorage implements Storage{
+public abstract class AbstractStorage <SK> implements Storage{
 
     public abstract int size();
 
-    protected abstract void doUpdate(Object SK, Resume r);
+    protected abstract void doUpdate(SK SK, Resume r);
 
-    protected abstract void doSave(Resume r, Object SK) throws StorageException;
+    protected abstract void doSave(Resume r, SK SK) throws StorageException;
 
-    protected abstract Resume doGet(Object SK);
+    protected abstract Resume doGet(SK SK);
 
-    protected abstract void doDelete(Object SK);
+    protected abstract void doDelete(SK SK);
 
     protected abstract List<Resume> doGetAll();
 
@@ -30,24 +30,24 @@ public abstract class AbstractStorage implements Storage{
      */
     public void update(UUID uuid, Resume r) throws StorageException {
         EmptyStorageCheck();
-        Object searchKey = getSearchKeyIfExist(uuid);
+        SK searchKey = getSearchKeyIfExist(uuid);
         doUpdate(searchKey,r);
     }
 
     public void save(Resume r) throws StorageException {
-        Object searchKey = SearchKeyNotExistCheck(r.getUuid());
+        SK searchKey = SearchKeyNotExistCheck(r.getUuid());
         doSave(r,searchKey);
     }
 
     public void delete(UUID uuid) throws StorageException {
         EmptyStorageCheck();
-        Object searchKey = getSearchKeyIfExist(uuid);
+        SK searchKey = getSearchKeyIfExist(uuid);
         doDelete(searchKey);
     }
 
     public Resume get(UUID uuid) throws StorageException {
         EmptyStorageCheck();
-        Object searchKey = getSearchKeyIfExist(uuid);
+        SK searchKey = getSearchKeyIfExist(uuid);
         return doGet(searchKey);
     }
 
@@ -58,18 +58,18 @@ public abstract class AbstractStorage implements Storage{
     }
 
     @Nullable
-    protected abstract Object getSearchKey(UUID uuid);
-    protected abstract boolean isExist(Object SK);
+    protected abstract SK getSearchKey(UUID uuid);
+    protected abstract boolean isExist(SK SK);
 
     // Exception checks
-    private Object getSearchKeyIfExist(UUID uuid) throws StorageException {
-        Object searchKey = getSearchKey(uuid);
+    private SK getSearchKeyIfExist(UUID uuid) throws StorageException {
+        SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {throw new StorageException("Search key not found",700);}
         return searchKey;
     }
 
-    private Object SearchKeyNotExistCheck(UUID uuid) throws StorageException {
-        Object searchKey = getSearchKey(uuid);
+    private SK SearchKeyNotExistCheck(UUID uuid) throws StorageException {
+        SK searchKey = getSearchKey(uuid);
         if (isExist(searchKey))  throw new StorageException("Search key duplicated",800);
         return searchKey;
     }

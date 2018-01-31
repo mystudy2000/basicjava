@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage <Integer> {
 
     private ArrayList <Resume> resumeList = new ArrayList<>();
 
@@ -21,27 +21,26 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object index) { return (Integer)index!=-1;}
+    protected boolean isExist(Integer index) { return index!=-1;}
 
     @Override
-    protected void doUpdate(Object SK, Resume r) {
-        resumeList.set((Integer)SK, r);
+    protected void doUpdate(Integer SK, Resume r) {
+        resumeList.set(SK, r);
     }
 
     @Override
-    protected void doSave(Resume r, Object SK) {
+    protected void doSave(Resume r, Integer SK) {
         resumeList.add(r);
     }
 
     @Override
-    protected Resume doGet(Object SK) {
-        return resumeList.get((Integer)SK);
+    protected Resume doGet(Integer SK) {
+        return resumeList.get(SK);
     }
 
     @Override
-    protected void doDelete(Object SK) {
-        int index = (Integer) SK;
-        resumeList.remove(index);
+    protected void doDelete(Integer SK) {
+        resumeList.remove((int) SK);
         resumeList.trimToSize();
     }
 
