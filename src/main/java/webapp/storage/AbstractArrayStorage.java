@@ -30,9 +30,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Resume r) throws StorageException {
+    protected void doSave(Resume r, Object SK) throws StorageException {
         StorageOverflowCheck();
-        insertElement(r, size);
+        insertElement(r, (Integer)SK);
         size++;
     }
 

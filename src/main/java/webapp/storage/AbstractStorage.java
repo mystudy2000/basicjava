@@ -14,7 +14,7 @@ public abstract class AbstractStorage implements Storage{
 
     protected abstract void doUpdate(Object SK, Resume r);
 
-    protected abstract void doSave(Resume r) throws StorageException;
+    protected abstract void doSave(Resume r, Object SK) throws StorageException;
 
     protected abstract Resume doGet(Object SK);
 
@@ -35,8 +35,8 @@ public abstract class AbstractStorage implements Storage{
     }
 
     public void save(Resume r) throws StorageException {
-        SeachKeyNotExistCheck(r.getUuid());
-        doSave(r);
+        Object searchKey = SearchKeyNotExistCheck(r.getUuid());
+        doSave(r,searchKey);
     }
 
     public void delete(UUID uuid) throws StorageException {
@@ -66,11 +66,13 @@ public abstract class AbstractStorage implements Storage{
         Object searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {throw new StorageException("Search key not found",700);}
         return searchKey;
-        }
+    }
 
-    private void SeachKeyNotExistCheck(UUID uuid) throws StorageException {
+    private Object SearchKeyNotExistCheck(UUID uuid) throws StorageException {
         Object searchKey = getSearchKey(uuid);
-        if (isExist(searchKey))  throw new StorageException("Search key duplicated",800);}
+        if (isExist(searchKey))  throw new StorageException("Search key duplicated",800);
+        return searchKey;
+    }
 
     private void EmptyStorageCheck() throws StorageException {
         if (size()==0) throw new StorageException("Storage is empty!",900);
