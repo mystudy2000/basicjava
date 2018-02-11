@@ -1,42 +1,45 @@
 package webapp.model;
 
-import java.util.Objects;
 import java.util.UUID;
 
 /*** Resume class */
-public class Resume implements Comparable<Resume> {
+public class Resume implements Comparable<Resume>, Base {
 /**  Resume = structure of
-             uuid     UUID
-             fullName string
+             uuid            UUID
+             fullName        string
+             Contacts        EnumMap < TypeOfContact, String>
+             resumeSection   EnumMap < TypeOfSection, Object>
  */
-    public  UUID   uuid;
-    public  String fullName;
+    public UUID          uuid;
+    public String        fullName;
+    public Contacts      contacts;
+    public Sections      section;
+
+    public Resume() {
+        this.uuid =  UUID.randomUUID();
+        this.fullName =   EMPTY_STRING;
+        this.contacts = new Contacts();
+        this.section  = new Sections();
+    }
 
     public Resume(String fullName) {
         this (UUID.randomUUID(), fullName);
+        this.contacts = new Contacts();
+        this.section  = new Sections();
     }
 
     public Resume(UUID uuid, String fullName) {
         this.fullName=fullName;
         this.uuid = uuid;
+        this.contacts = new Contacts();
+        this.section  = new Sections();
     }
 
-    // Resume getter
-    public UUID   getUuid() { return uuid; }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Resume resume = (Resume) o;
-        return Objects.equals(uuid,resume.uuid)&&
-               Objects.equals(fullName,resume.fullName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(uuid,fullName);
-    }
+    // Resume getters
+    public UUID          getUuid()   { return uuid; }
+    public String    getFullName() {return fullName;}
+    public Contacts  getContacts() {return contacts;}
+    public Sections   getSection()  {return section;}
 
     @Override
     public String toString() {
