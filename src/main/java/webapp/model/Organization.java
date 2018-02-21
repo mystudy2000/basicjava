@@ -1,21 +1,39 @@
 package webapp.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class Organization extends Position {
+import static webapp.model.Section.EMPTY_STRING;
+
+class Organization {
+    public static final Organization EMPTY = new Organization(EMPTY_STRING, Position.EMPTY);
     // Data structure
     private String name;
-    private List<Position> positions = new ArrayList<>();
-    // Constructors
-    Organization() {this.name=EMPTY_STRING;this.positions.add(new Position());}
-    Organization(String name, Position... positions) { this(name, Arrays.asList(positions)); }
-    Organization(String name, List<Position> positions) {this.name=name; this.positions=positions;}
+    private List<Position> positions;
 
-    // getter
-    public List<Position> getPositions() {return positions;}
+    // Constructors
+    Organization() {
+        this.name = EMPTY_STRING;
+        this.positions = (List<Position>) Position.EMPTY;
+    }
+
+    Organization(String name, Position... positions) {
+        this(name, Arrays.asList(positions));
+    }
+
+    Organization(String name, List<Position> positions) {
+        this.name = name;
+        this.positions = positions;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -40,3 +58,4 @@ public class Organization extends Position {
                 '}';
     }
 }
+

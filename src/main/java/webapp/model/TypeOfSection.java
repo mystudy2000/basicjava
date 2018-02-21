@@ -1,6 +1,7 @@
 package webapp.model;
 
 public enum TypeOfSection {
+    EMPTY("EMPTY"){},
     OBJECTIVE("Позиция"){},
     PERSONAL("Личные качества"){},
     ACHIEVEMENT("Достижения"){},
