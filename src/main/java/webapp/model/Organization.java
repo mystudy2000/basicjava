@@ -7,7 +7,7 @@ import java.util.Objects;
 import static webapp.model.Section.EMPTY_STRING;
 
 class Organization {
-    public static final Organization EMPTY = new Organization(EMPTY_STRING, Position.EMPTY);
+    public static final Organization EMPTY = new Organization(EMPTY_STRING, new Position());
     // Data structure
     private String name;
     private List<Position> positions;
@@ -15,7 +15,7 @@ class Organization {
     // Constructors
     Organization() {
         this.name = EMPTY_STRING;
-        this.positions = (List<Position>) Position.EMPTY;
+        this.positions = (List<Position>) new Position();
     }
 
     Organization(String name, Position... positions) {

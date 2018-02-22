@@ -7,19 +7,18 @@ import static webapp.model.Section.EMPTY_DATE;
 import static webapp.model.Section.EMPTY_STRING;
 
 class Position {
-    public static final Position EMPTY = new Position();
     // Data structure
     private LocalDate startDate;
     private LocalDate endDate;
     private String positionName;
     private String description;
 
-    // Telescoping constructors
     Position() {
         this.startDate = EMPTY_DATE;
         this.endDate = EMPTY_DATE;
         this.positionName = EMPTY_STRING;
         this.description = EMPTY_STRING;
+
     }
 
     Position(LocalDate startDate, LocalDate endDate, String positionName, String description) {

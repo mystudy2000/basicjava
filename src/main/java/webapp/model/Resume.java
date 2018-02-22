@@ -29,7 +29,7 @@ public class Resume implements Comparable<Resume> {
 
     }
 
-    private UUID uuid;
+    public UUID uuid;
     private String fullName;
     private Map<TypeOfContact, String> contacts = new EnumMap<>(TypeOfContact.class);
     private Map<TypeOfSection, Section> sections = new EnumMap<>(TypeOfSection.class);
