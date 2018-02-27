@@ -1,34 +1,73 @@
 package webapp.storage;
 
-import org.apache.commons.text.RandomStringGenerator;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import webapp.exceptions.StorageException;
-import webapp.model.Resume;
+import webapp.model.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
+import static webapp.model.TypeOfContact.*;
+import static webapp.model.TypeOfSection.*;
 
 public abstract class AbstractStorageTest {
 
     Storage storage;
     protected AbstractStorageTest(Storage storage) {this.storage = storage;}
     protected Resume r;
-    // Depth of test data and length of strings
-    static int ArrayLengthLimit = 3;
-    static int StringLengthLimit = 10;
+    // Depth of test data and length of test string
+    static int ArrayLengthLimit = 10;
+    static int stringLength = 20;
     // Array for unit testing
     static Resume[] testArray =  new Resume[ArrayLengthLimit];
 
+
     @BeforeClass
+
     public static void setUpOnce() {
-        System.out.println("Test array shown below:");
+        Random generator                         = new Random();
+        final String alpha                       = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        final List<String>  listOfAchivements    = new ArrayList<>(Arrays.asList("Achievement1", "Achievement2", "Achievement3","Achievement4", "Achievement5", "Achievement6"));
+        final List<String>  listOfPositions      = new ArrayList<>(Arrays.asList("SW Developer", "Team Lead", "Sr SW Developer", "Jr SW Developer", "Solution Architect", "Project manager"));
+        final List<String>  listOfPosDescr       = new ArrayList<>(Arrays.asList("Description1", "Description2", "Description3", "Description4", "Description5", "Description6"));
+        final List<String>  listOfOrganizations  = new ArrayList<>(Arrays.asList("Circus", "Zoo", "Hospital", "Museum", "Barbarian tribe", "Academy"));
+        final List<String>  listOfEducation      = new ArrayList<>(Arrays.asList("University", "College", "Trade school", "Labor Camp", "Home education", "Street education"));
+        final List<String>  listOfQualifications = new ArrayList<>(Arrays.asList("Java","MPLS", "Networking", "Project management", "Python","Risk management", "IP Routing Protocols", "UML",
+                "Jira", "Confluence", "System Integration", "BPMN", "Software Development", "Unit Testing", "Android"));
+
         for (int i = 0; i < ArrayLengthLimit; i++) {
-            testArray[i] = new Resume(new RandomStringGenerator.Builder().withinRange('a', 'z').build().generate(StringLengthLimit));
-            System.out.println(testArray[i].toString());
+            Collections.shuffle(listOfQualifications);
+            Collections.shuffle(listOfAchivements);
+            Collections.shuffle(listOfPositions);
+            Collections.shuffle(listOfPosDescr);
+            Collections.shuffle(listOfOrganizations);
+            Collections.shuffle(listOfEducation);
+            LocalDate randomDateBegin = LocalDate.now().minusDays(generator.nextInt(10000)+365);
+            LocalDate randomDateEnd = randomDateBegin.plusDays(generator.nextInt(1095));
+            testArray[i] = new Resume(new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining()));
+            testArray[i].setContact(SKYPE, new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining()));
+            testArray[i].setContact(HOMEPHONE,"+8 495-"+Integer.toString(generator.nextInt(8999999) + 1000000));
+            testArray[i].setContact(MOBILEPHONE, "+7 095-"+Integer.toString(generator.nextInt(8999999) + 1000000));
+            testArray[i].setSection(OBJECTIVE, new StringSection(new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining())));
+            testArray[i].setSection(PERSONAL, new StringSection(new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining())));
+            testArray[i].setSection(ACHIEVEMENT, new ListSection(listOfAchivements.subList(0,3)));
+            testArray[i].setSection(QUALIFICATIONS, new ListSection(listOfQualifications.subList(0,3)));
+            testArray[i].setSection(EXPERIENCE, new OrganizationSection( new Organization( listOfOrganizations.get(0), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(0),listOfPosDescr.get(0)),
+                    new Position(randomDateBegin,randomDateEnd,listOfPositions.get(1),listOfPosDescr.get(1)), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(2),listOfPosDescr.get(2))),
+                    new Organization( listOfOrganizations.get(1), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(1),listOfPosDescr.get(1)),
+                            new Position(randomDateBegin,randomDateEnd,listOfPositions.get(2),listOfPosDescr.get(2)), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(3),listOfPosDescr.get(3))),
+                    new Organization( listOfOrganizations.get(2), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(2),listOfPosDescr.get(2)),
+                            new Position(randomDateBegin,randomDateEnd,listOfPositions.get(3),listOfPosDescr.get(3)), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(4),listOfPosDescr.get(4)))));
+            testArray[i].setSection(EDUCATION, new OrganizationSection( new Organization( listOfEducation.get(0), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(0),listOfPosDescr.get(0)),
+                    new Position(randomDateBegin,randomDateEnd,listOfPositions.get(1),listOfPosDescr.get(1)), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(2),listOfPosDescr.get(2))),
+                    new Organization( listOfEducation.get(1), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(1),listOfPosDescr.get(1)),
+                            new Position(randomDateBegin,randomDateEnd,listOfPositions.get(2),listOfPosDescr.get(2)), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(3),listOfPosDescr.get(3))),
+                    new Organization( listOfEducation.get(2), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(2),listOfPosDescr.get(2)),
+                            new Position(randomDateBegin,randomDateEnd,listOfPositions.get(3),listOfPosDescr.get(3)), new Position(randomDateBegin,randomDateEnd,listOfPositions.get(4),listOfPosDescr.get(4)))));
         }
     }
 
@@ -148,4 +187,5 @@ public abstract class AbstractStorageTest {
         storage.clear();
         storage.get(UUID.randomUUID());
     }
+
 }

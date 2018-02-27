@@ -6,22 +6,18 @@ import java.util.Objects;
 import static webapp.model.Section.EMPTY_DATE;
 import static webapp.model.Section.EMPTY_STRING;
 
-class Position {
+public class Position {
     // Data structure
     private LocalDate startDate;
     private LocalDate endDate;
     private String positionName;
     private String description;
 
-    Position() {
-        this.startDate = EMPTY_DATE;
-        this.endDate = EMPTY_DATE;
-        this.positionName = EMPTY_STRING;
-        this.description = EMPTY_STRING;
-
+    public Position() {
+        this(EMPTY_DATE,EMPTY_DATE,EMPTY_STRING,EMPTY_STRING);
     }
 
-    Position(LocalDate startDate, LocalDate endDate, String positionName, String description) {
+    public Position(LocalDate startDate, LocalDate endDate, String positionName, String description) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.positionName = positionName;

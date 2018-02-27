@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static webapp.model.Section.EMPTY_STRING;
+import static webapp.model.TypeOfContact.*;
+import static webapp.model.TypeOfSection.*;
 
 /*** Resume class */
 public class Resume implements Comparable<Resume> {
@@ -20,10 +22,10 @@ public class Resume implements Comparable<Resume> {
 
     static {
         EMPTY.setContact(TypeOfContact.EMPTY, EMPTY_STRING);
-        EMPTY.setSection(TypeOfSection.OBJECTIVE, StringSection.EMPTY);
+        EMPTY.setSection(OBJECTIVE, StringSection.EMPTY);
         EMPTY.setSection(TypeOfSection.PERSONAL, StringSection.EMPTY);
         EMPTY.setSection(TypeOfSection.ACHIEVEMENT, ListSection.EMPTY);
-        EMPTY.setSection(TypeOfSection.QUALIFICATIONS, ListSection.EMPTY);
+        EMPTY.setSection(QUALIFICATIONS, ListSection.EMPTY);
         EMPTY.setSection(TypeOfSection.EXPERIENCE, OrganizationSection.EMPTY);
         EMPTY.setSection(TypeOfSection.EDUCATION, OrganizationSection.EMPTY);
 
@@ -111,9 +113,18 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return "Resume{" +
-                "uuid=" + uuid +
-                ", fullName='" + fullName +
-                '}';
+        return  "Resume [" + "\n" +
+                "uuid=" + uuid + "\n" +
+                "fullName=" + fullName + "\n" +
+                "contacts.HOMEPHONE=" + getContact(HOMEPHONE) + "\n" +
+                "contacts.MOBILEPHONE=" + getContact(MOBILEPHONE) + "\n" +
+                "contacts.SKYPE=" + getContact(SKYPE) + "\n" +
+                "sections.OBJECTIVE=" + getSection(OBJECTIVE) + "\n" +
+                "sections.PERSONAL=" + getSection(PERSONAL) + "\n" +
+                "sections.ACHIEVEMENT=" + getSection(ACHIEVEMENT) + "\n" +
+                "sections.QUALIFICATIONS=" + getSection(QUALIFICATIONS) + "\n" +
+                "sections.EXPERIENCE=" + getSection(EXPERIENCE) + "\n" +
+                "sections.EDUCATION=" + getSection(EDUCATION) + "\n" +
+                ']';
     }
 }

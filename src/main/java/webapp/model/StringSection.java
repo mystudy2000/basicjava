@@ -30,8 +30,6 @@ public class StringSection extends Section {
 
     @Override
     public String toString() {
-        return "StringSection{" +
-                "stringSection='" + stringSection + '\'' +
-                '}';
+        return stringSection;
     }
 }
