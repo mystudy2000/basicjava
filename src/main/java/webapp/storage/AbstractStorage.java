@@ -13,15 +13,15 @@ public abstract class AbstractStorage <SK> implements Storage{
 
     private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
-    public abstract int size();
+    public abstract int size() throws StorageException;
 
-    protected abstract void doUpdate(SK SK, Resume r);
+    protected abstract void doUpdate(SK SK, Resume r) throws StorageException;
 
     protected abstract void doSave(Resume r, SK SK) throws StorageException;
 
-    protected abstract Resume doGet(SK SK);
+    protected abstract Resume doGet(SK SK) throws StorageException;
 
-    protected abstract void doDelete(SK SK);
+    protected abstract void doDelete(SK SK) throws StorageException;
 
     protected abstract List<Resume> doGetAll();
 

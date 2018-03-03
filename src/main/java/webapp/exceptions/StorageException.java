@@ -7,6 +7,9 @@ public class StorageException extends Exception {
     "Search key duplicated",800
     "Storage is empty!",900
     "Storage overflow!",1000
+    "Directory does not exist", 1100
+    "Error for file write", 1200
+    "Couldn't create file " + file.getAbsolutePath(), 1300
  */
     public StorageException(String message, int errCode) {
         super(message);

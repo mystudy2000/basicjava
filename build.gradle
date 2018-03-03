@@ -11,6 +11,7 @@ repositories {
 }
 
 dependencies {
+    compile 'commons-io:commons-io:2.7-SNAPSHOT'
     compile 'org.apache.commons:commons-configuration2:2.2'
     compile 'org.apache.commons:commons-lang3:3.7'
     compile 'org.apache.commons:commons-text:1.2'

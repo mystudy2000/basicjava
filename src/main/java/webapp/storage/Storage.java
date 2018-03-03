@@ -8,11 +8,11 @@ import java.util.UUID;
 
 public interface Storage {
 
-    void     clear();
+    void     clear() throws StorageException;
     void     update(UUID uuid, Resume r) throws StorageException;
     void     save(Resume r) throws StorageException;
     Resume   get(UUID uuid) throws StorageException;
     void     delete(UUID uuid) throws StorageException;
     List<Resume> getAllSorted();
-    int      size();
+    int      size() throws StorageException;
 }
