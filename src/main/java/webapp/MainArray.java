@@ -1,6 +1,5 @@
 package webapp;
 
-import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 import webapp.storage.ArrayStorage;
 import webapp.storage.Storage;
@@ -16,7 +15,7 @@ class MainArray {
 
     private final static Storage ARRAY_STORAGE = new ArrayStorage();
 
-    public static void main(String[] args) throws IOException, StorageException {
+    public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {

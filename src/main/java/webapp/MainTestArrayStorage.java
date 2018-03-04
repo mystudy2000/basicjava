@@ -1,6 +1,5 @@
 package webapp;
 
-import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 import webapp.storage.ArrayStorage;
 
@@ -8,7 +7,7 @@ import webapp.storage.ArrayStorage;
 class MainTestArrayStorage {
     private static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
 
-    public static void main(String[] args) throws StorageException {
+    public static void main(String[] args) {
         Resume r1 = new Resume("Ivanoff");
         Resume r2 = new Resume("Petroff");
         Resume r3 = new Resume("Sidoroff");

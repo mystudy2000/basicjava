@@ -13,15 +13,15 @@ public abstract class AbstractStorage <SK> implements Storage{
 
     private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
-    public abstract int size() throws StorageException;
+    public abstract int size();
 
-    protected abstract void doUpdate(SK SK, Resume r) throws StorageException;
+    protected abstract void doUpdate(SK SK, Resume r);
 
     protected abstract void doSave(Resume r, SK SK) throws StorageException;
 
-    protected abstract Resume doGet(SK SK) throws StorageException;
+    protected abstract Resume doGet(SK SK);
 
-    protected abstract void doDelete(SK SK) throws StorageException;
+    protected abstract void doDelete(SK SK);
 
     protected abstract List<Resume> doGetAll();
 
@@ -70,27 +70,27 @@ public abstract class AbstractStorage <SK> implements Storage{
     protected abstract boolean isExist(SK SK);
 
     // Exception checks
-    private SK getSearchKeyIfExist(UUID uuid) throws StorageException {
+    private SK getSearchKeyIfExist(UUID uuid) {
         SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
 //            LOG.warning("Resume " + uuid + " not found");
-            throw new StorageException("Search key not found",700);}
+            throw new StorageException("Search key not found " + searchKey);}
         return searchKey;
     }
 
-    private SK SearchKeyNotExistCheck(UUID uuid) throws StorageException {
+    private SK SearchKeyNotExistCheck(UUID uuid) {
         SK searchKey = getSearchKey(uuid);
         if (isExist(searchKey))  {
 //            LOG.warning("Resume " + uuid + " duplicated");
-            throw new StorageException("Search key duplicated",800);
+            throw new StorageException("Search key not found " + searchKey);
         }
         return searchKey;
     }
 
-    private void EmptyStorageCheck() throws StorageException {
+    private void EmptyStorageCheck() {
         if (size()==0) {
 //            LOG.warning("Storage is empty!");
-            throw new StorageException("Storage is empty!",900);
+            throw new StorageException("Storage is empty!");
         }
     }
 }

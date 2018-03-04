@@ -1,28 +1,25 @@
 package webapp;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
 public class FileDIr {
 
     public static void main(String[] args) throws IOException {
-        File currentDir = new File("."); // current directory
-        displayDirectoryContent(currentDir);
-    }
 
-    public static void displayDirectoryContent(File dir) {
-        try {
-            File[] files = dir.listFiles();
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    System.out.println("directory:" + file.getCanonicalPath());
-                    displayDirectoryContent(file);
-                } else {
-                    System.out.println("     file:" + file.getCanonicalPath());
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        File dir = new File(".");
+
+        System.out.println("Getting all files in " + dir.getCanonicalPath() + " including those in subdirectories");
+        List<File> files = (List<File>) FileUtils.listFiles(dir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+        for (File file : files) {
+            System.out.println("file: " + file.getCanonicalPath());
         }
 
     }
+
 }
+

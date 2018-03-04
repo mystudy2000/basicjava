@@ -23,10 +23,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    public int size() throws StorageException {
+    public int size() {
         String[] list = dir.list();
         if (list == null) {
-            throw new StorageException("Directory does not exist", 1100);
+            throw new StorageException("Directory " + list + " does not exist");
         }
         return list.length;
     }
@@ -48,13 +48,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void doUpdate(File file, Resume r) throws StorageException {
+    protected void doUpdate(File file, Resume r) {
         try {
             doWrite(r, file);
-        } catch (IOException e) {
-            throw new StorageException("Error for file write " + file.getName(), 1200);
+        } catch (RuntimeException e) {
+
         }
     }
+
 
     @Override
     protected boolean isExist(File file) {
@@ -62,39 +63,39 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void doSave(Resume r, File file) throws StorageException {
+    protected void doSave(Resume r, File file) {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), 1300);
+            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), e);
         }
         doUpdate(file, r);
     }
 
-    protected abstract void doWrite(Resume r, File file) throws IOException;
+    protected abstract void doWrite(Resume r, File file);
 
     protected abstract Resume doRead(File file) throws IOException;
 
     @Override
-    protected Resume doGet(File file) throws StorageException {
+    protected Resume doGet(File file) {
         try {
             return doRead(file);
         } catch (IOException e) {
-            throw new StorageException("File read error " + file.getName(), 1400);
+            throw new StorageException("File read error " + file.getName(), e);
         }
     }
 
     @Override
-    protected void doDelete(File file) throws StorageException {
+    protected void doDelete(File file) {
         if (!file.delete()) {
-            throw new StorageException("File delete error " + file.getName(), 1500);
+            throw new StorageException("File delete error " + file.getName());
         }
     }
 
-    protected List<Resume> doCopyAll() throws StorageException {
+    protected List<Resume> doCopyAll() {
         File[] files = dir.listFiles();
         if (files == null) {
-            throw new StorageException("Directory is not exist", 1600);
+            throw new StorageException("Directory " + files + " is not exist");
         }
         List<Resume> list = new ArrayList<>(files.length);
         for (File file : files) {

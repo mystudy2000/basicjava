@@ -30,7 +30,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage <Integer> {
     }
 
     @Override
-    protected void doSave(Resume r, Integer SK) throws StorageException {
+    protected void doSave(Resume r, Integer SK) {
         StorageOverflowCheck();
         insertElement(r, SK);
         size++;
@@ -62,9 +62,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage <Integer> {
         return -1;
     }
 
-    private void StorageOverflowCheck() throws StorageException {
+    private void StorageOverflowCheck() {
         if (size==STORAGE_LIMIT) {
-            throw new StorageException("Storage is full!",1000);}
+            throw new StorageException("Storage is full! Size =" + size());}
     }
 }
 
