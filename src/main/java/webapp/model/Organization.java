@@ -1,12 +1,14 @@
 package webapp.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 import static webapp.model.Section.EMPTY_STRING;
 
-public class Organization {
+public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
     public static final Organization EMPTY = new Organization(EMPTY_STRING, new Position());
     // Data structure
     private String name;

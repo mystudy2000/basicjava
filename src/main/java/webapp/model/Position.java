@@ -1,12 +1,13 @@
 package webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 import static webapp.model.Section.EMPTY_DATE;
 import static webapp.model.Section.EMPTY_STRING;
 
-public class Position {
+public class Position implements Serializable {
     // Data structure
     private LocalDate startDate;
     private LocalDate endDate;

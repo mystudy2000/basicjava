@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class OrganizationSection extends Section {
+    private static final long serialVersionUID = 1L;
     public static final OrganizationSection EMPTY = new OrganizationSection(Organization.EMPTY);
     private List<Organization> organizations;
-
 
     public OrganizationSection(List<Organization> organizations) {
         this.organizations = organizations;

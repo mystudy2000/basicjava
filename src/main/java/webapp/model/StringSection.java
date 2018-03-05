@@ -3,6 +3,7 @@ package webapp.model;
 import java.util.Objects;
 
 public class StringSection extends Section {
+    private static final long serialVersionUID = 1L;
     public static final StringSection EMPTY = new StringSection(EMPTY_STRING);
     private String stringSection;
 

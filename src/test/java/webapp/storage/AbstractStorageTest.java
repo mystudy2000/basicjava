@@ -6,6 +6,7 @@ import org.junit.Test;
 import webapp.exceptions.StorageException;
 import webapp.model.*;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,6 +16,8 @@ import static webapp.model.TypeOfContact.*;
 import static webapp.model.TypeOfSection.*;
 
 public abstract class AbstractStorageTest {
+
+    protected static final File STORAGE_DIR = new File("C:\\projects\\storage");
 
     Storage storage;
 

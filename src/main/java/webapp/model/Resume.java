@@ -1,5 +1,6 @@
 package webapp.model;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
@@ -10,7 +11,8 @@ import static webapp.model.TypeOfContact.*;
 import static webapp.model.TypeOfSection.*;
 
 /*** Resume class */
-public class Resume implements Comparable<Resume> {
+public class Resume implements Comparable<Resume>, Serializable {
+    private static final long serialVersionUID = 1L;
     /**
      * Resume = structure of
      * uuid            UUID

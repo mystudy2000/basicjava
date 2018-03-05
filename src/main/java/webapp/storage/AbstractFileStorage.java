@@ -3,14 +3,17 @@ package webapp.storage;
 import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
     private File dir;
+
+    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
+
+    protected abstract Resume doRead(InputStream is) throws IOException;
 
     protected AbstractFileStorage(File directory) {
         if (!directory.isDirectory()) {
@@ -50,9 +53,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(File file, Resume r) {
         try {
-            doWrite(r, file);
-        } catch (RuntimeException e) {
-
+            doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
+        } catch (IOException e) {
+            throw new StorageException("File read error " + file.getName());
         }
     }
 
@@ -72,14 +75,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         doUpdate(file, r);
     }
 
-    protected abstract void doWrite(Resume r, File file);
-
-    protected abstract Resume doRead(File file) throws IOException;
-
     @Override
     protected Resume doGet(File file) {
         try {
-            return doRead(file);
+            return doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File read error " + file.getName(), e);
         }
@@ -92,7 +91,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
-    protected List<Resume> doCopyAll() {
+    protected List<Resume> doGetAll() {
         File[] files = dir.listFiles();
         if (files == null) {
             throw new StorageException("Directory " + files + " is not exist");
