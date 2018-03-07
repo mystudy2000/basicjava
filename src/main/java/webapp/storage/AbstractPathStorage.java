@@ -1,19 +1,9 @@
 package webapp.storage;
 
-import webapp.exceptions.StorageException;
-import webapp.model.Resume;
-
-import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 public abstract class AbstractPathStorage extends AbstractStorage<Path> {
-    private Path directory;
+/**    private Path directory;
 
     protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
 
@@ -102,4 +92,5 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         }
         return list;
     }
+*/
 }

@@ -3,10 +3,8 @@ package webapp.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * gkislin
- * 14.07.2016
- */
+import static webapp.model.Section.EMPTY_STRING;
+
 public class Link implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -18,6 +16,15 @@ public class Link implements Serializable {
         this.name = name;
         this.url = url;
     }
+
+    public Link(String name) {
+        this(name, EMPTY_STRING);
+    }
+
+    public Link() {
+        this(EMPTY_STRING, EMPTY_STRING);
+    }
+
 
     public String getName() {
         return name;

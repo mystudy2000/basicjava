@@ -41,8 +41,8 @@ public abstract class AbstractStorageTest {
         final List<String> listOfAchivements = new ArrayList<>(Arrays.asList("Achievement1", "Achievement2", "Achievement3", "Achievement4", "Achievement5", "Achievement6"));
         final List<String> listOfPositions = new ArrayList<>(Arrays.asList("SW Developer", "Team Lead", "Sr SW Developer", "Jr SW Developer", "Solution Architect", "Project manager"));
         final List<String> listOfPosDescr = new ArrayList<>(Arrays.asList("Description1", "Description2", "Description3", "Description4", "Description5", "Description6"));
-        final List<String> listOfOrganizations = new ArrayList<>(Arrays.asList("Circus", "Zoo", "Hospital", "Museum", "Barbarian tribe", "Academy"));
-        final List<String> listOfEducation = new ArrayList<>(Arrays.asList("University", "College", "Trade school", "Labor Camp", "Home education", "Street education"));
+        final List<String> listOfOrganizationsName = new ArrayList<>(Arrays.asList("Circus", "Zoo", "Hospital", "Museum", "Barbarian tribe", "Academy"));
+        final List<String> listOfEducationName = new ArrayList<>(Arrays.asList("University", "College", "Trade school", "Labor Camp", "Home education", "Street education"));
         final List<String> listOfQualifications = new ArrayList<>(Arrays.asList("Java", "MPLS", "Networking", "Project management", "Python", "Risk management", "IP Routing Protocols", "UML",
                 "Jira", "Confluence", "System Integration", "BPMN", "Software Development", "Unit Testing", "Android"));
 
@@ -51,8 +51,8 @@ public abstract class AbstractStorageTest {
             Collections.shuffle(listOfAchivements);
             Collections.shuffle(listOfPositions);
             Collections.shuffle(listOfPosDescr);
-            Collections.shuffle(listOfOrganizations);
-            Collections.shuffle(listOfEducation);
+            Collections.shuffle(listOfOrganizationsName);
+            Collections.shuffle(listOfEducationName);
             LocalDate randomDateBegin = LocalDate.now().minusDays(generator.nextInt(10000) + 365);
             LocalDate randomDateEnd = randomDateBegin.plusDays(generator.nextInt(1095));
             testArray[i] = new Resume(new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining()));
@@ -63,17 +63,17 @@ public abstract class AbstractStorageTest {
             testArray[i].setSection(PERSONAL, new StringSection(new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining())));
             testArray[i].setSection(ACHIEVEMENT, new ListSection(listOfAchivements.subList(0, 3)));
             testArray[i].setSection(QUALIFICATIONS, new ListSection(listOfQualifications.subList(0, 3)));
-            testArray[i].setSection(EXPERIENCE, new OrganizationSection(new Organization(listOfOrganizations.get(0), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(0), listOfPosDescr.get(0)),
+            testArray[i].setSection(EXPERIENCE, new OrganizationSection(new Organization(listOfOrganizationsName.get(0), new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining()), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(0), listOfPosDescr.get(0)),
                     new Position(randomDateBegin, randomDateEnd, listOfPositions.get(1), listOfPosDescr.get(1)), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(2), listOfPosDescr.get(2))),
-                    new Organization(listOfOrganizations.get(1), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(1), listOfPosDescr.get(1)),
+                    new Organization(listOfOrganizationsName.get(1), new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining()), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(1), listOfPosDescr.get(1)),
                             new Position(randomDateBegin, randomDateEnd, listOfPositions.get(2), listOfPosDescr.get(2)), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(3), listOfPosDescr.get(3))),
-                    new Organization(listOfOrganizations.get(2), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(2), listOfPosDescr.get(2)),
+                    new Organization(listOfOrganizationsName.get(2), new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining()), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(2), listOfPosDescr.get(2)),
                             new Position(randomDateBegin, randomDateEnd, listOfPositions.get(3), listOfPosDescr.get(3)), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(4), listOfPosDescr.get(4)))));
-            testArray[i].setSection(EDUCATION, new OrganizationSection(new Organization(listOfEducation.get(0), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(0), listOfPosDescr.get(0)),
+            testArray[i].setSection(EDUCATION, new OrganizationSection(new Organization(listOfEducationName.get(0), new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining()), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(0), listOfPosDescr.get(0)),
                     new Position(randomDateBegin, randomDateEnd, listOfPositions.get(1), listOfPosDescr.get(1)), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(2), listOfPosDescr.get(2))),
-                    new Organization(listOfEducation.get(1), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(1), listOfPosDescr.get(1)),
+                    new Organization(listOfEducationName.get(1), new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining()), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(1), listOfPosDescr.get(1)),
                             new Position(randomDateBegin, randomDateEnd, listOfPositions.get(2), listOfPosDescr.get(2)), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(3), listOfPosDescr.get(3))),
-                    new Organization(listOfEducation.get(2), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(2), listOfPosDescr.get(2)),
+                    new Organization(listOfEducationName.get(2), new Random().ints(stringLength, 0, alpha.length()).mapToObj(alpha::charAt).map(Object::toString).collect(Collectors.joining()), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(2), listOfPosDescr.get(2)),
                             new Position(randomDateBegin, randomDateEnd, listOfPositions.get(3), listOfPosDescr.get(3)), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(4), listOfPosDescr.get(4)))));
         }
     }

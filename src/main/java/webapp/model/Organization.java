@@ -1,36 +1,35 @@
 package webapp.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static webapp.model.Section.EMPTY_STRING;
-
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
-    public static final Organization EMPTY = new Organization(EMPTY_STRING, new Position());
+    public static final Organization EMPTY = new Organization();
     // Data structure
-    private String name;
-    private List<Position> positions;
+    private Link homePage;
+    private List<Position> positions = new ArrayList();
 
     // Constructors
     Organization() {
-        this.name = EMPTY_STRING;
         this.positions.add(new Position());
+        this.homePage=new Link();
     }
 
-    public Organization(String name, Position... positions) {
-        this(name, Arrays.asList(positions));
+    public Organization(String name, String url,  Position... positions) {
+        this(new Link(name,url), Arrays.asList(positions));
     }
 
-    public Organization(String name, List<Position> positions) {
-        this.name = name;
+    public Organization(Link homePage, List<Position> positions) {
+        this.homePage = homePage;
         this.positions = positions;
     }
 
-    public String getName() {
-        return name;
+    public Link getHomePage() {
+        return homePage;
     }
 
     public List<Position> getPositions() {
@@ -42,20 +41,20 @@ public class Organization implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Organization)) return false;
         Organization that = (Organization) o;
-        return Objects.equals(name, that.name) &&
-                Objects.equals(positions, that.positions);
+        return Objects.equals(getHomePage(), that.getHomePage()) &&
+                Objects.equals(getPositions(), that.getPositions());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, positions);
+        return Objects.hash(getHomePage(), getPositions());
     }
 
     @Override
     public String toString() {
         return "Organization{" +
-                "name='" + name + '\'' +
+                "homePage=" + homePage +
                 ", positions=" + positions +
                 '}';
     }
