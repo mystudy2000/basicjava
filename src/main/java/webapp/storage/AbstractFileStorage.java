@@ -27,9 +27,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        String[] list = dir.list();
+        File[] list = dir.listFiles();
         if (list == null) {
-            throw new StorageException("Directory " + list + " does not exist");
+            throw new StorageException("SIZE: Directory " + dir.toString() + " does not exist");
         }
         return list.length;
     }
@@ -55,7 +55,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("File read error " + file.getName());
+            throw new StorageException("doUpdate: File read error " + file.getName(),e);
         }
     }
 
@@ -70,7 +70,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), e);
+            throw new StorageException("doSave: Couldn't create file " + file.getAbsolutePath(), e);
         }
         doUpdate(file, r);
     }
@@ -80,21 +80,23 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             return doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("File read error " + file.getName(), e);
+            throw new StorageException("doGet: File read error " + file.getName(), e);
         }
     }
 
     @Override
     protected void doDelete(File file) {
-        if (!file.delete()) {
-            throw new StorageException("File delete error " + file.getName());
+        if (file.isDirectory()) {throw new StorageException("doDelete: File " + file + " is directory");}
+        else if (!file.exists()) {throw new StorageException("doDelete: File " + file + " is not exist");}
+        else if (!file.delete()) {
+            throw new StorageException("doDelete: File delete error " + file);
         }
     }
 
     protected List<Resume> doGetAll() {
         File[] files = dir.listFiles();
         if (files == null) {
-            throw new StorageException("Directory " + files + " is not exist");
+            throw new StorageException("doGetAll: Directory " + dir.toString() + " is not exist");
         }
         List<Resume> list = new ArrayList<>(files.length);
         for (File file : files) {

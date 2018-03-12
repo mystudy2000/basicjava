@@ -11,7 +11,7 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest{
 
     @Test (expected = StorageException.class)
     public void exceptionStorageOverflowTest() throws StorageException {
-        System.out.println("--Exception: storage overflow test ---");
+        // --Exception: storage overflow test ---*/
             for (int i = ArrayLengthLimit; i < AbstractArrayStorage.STORAGE_LIMIT + 1; i++) {
                 storage.save(new Resume("One more name " + i));
             }

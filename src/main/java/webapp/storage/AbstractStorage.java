@@ -32,7 +32,7 @@ public abstract class AbstractStorage <SK> implements Storage{
      *  if storage = resume.hashmap then @param SK = resume
      */
     public void update(UUID uuid, Resume r) throws StorageException {
-//        LOG.info("Update " + r);
+        LOG.info("Update " + r);
         EmptyStorageCheck();
         SK searchKey = getSearchKeyIfExist(uuid);
         doUpdate(searchKey,r);
@@ -45,21 +45,21 @@ public abstract class AbstractStorage <SK> implements Storage{
     }
 
     public void delete(UUID uuid) throws StorageException {
-//        LOG.info("Delete " + uuid);
+        LOG.info("Delete " + uuid);
         EmptyStorageCheck();
         SK searchKey = getSearchKeyIfExist(uuid);
         doDelete(searchKey);
     }
 
     public Resume get(UUID uuid) throws StorageException {
-//        LOG.info("Get " + uuid);
+        LOG.info("Get " + uuid);
         EmptyStorageCheck();
         SK searchKey = getSearchKeyIfExist(uuid);
         return doGet(searchKey);
     }
 
     public List<Resume> getAllSorted() {
-//        LOG.info("getAllSorted");
+        LOG.info("getAllSorted");
         List<Resume> resumeList = doGetAll();
         Collections.sort(resumeList);
         return resumeList;
@@ -73,7 +73,7 @@ public abstract class AbstractStorage <SK> implements Storage{
     private SK getSearchKeyIfExist(UUID uuid) {
         SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
-//            LOG.warning("Resume " + uuid + " not found");
+            LOG.warning("Resume " + uuid + " not found");
             throw new StorageException("Search key not found " + searchKey);}
         return searchKey;
     }
@@ -81,7 +81,7 @@ public abstract class AbstractStorage <SK> implements Storage{
     private SK SearchKeyNotExistCheck(UUID uuid) {
         SK searchKey = getSearchKey(uuid);
         if (isExist(searchKey))  {
-//            LOG.warning("Resume " + uuid + " duplicated");
+            LOG.warning("Resume " + uuid + " duplicated");
             throw new StorageException("Search key not found " + searchKey);
         }
         return searchKey;
@@ -89,7 +89,7 @@ public abstract class AbstractStorage <SK> implements Storage{
 
     private void EmptyStorageCheck() {
         if (size()==0) {
-//            LOG.warning("Storage is empty!");
+            LOG.warning("Storage is empty!");
             throw new StorageException("Storage is empty!");
         }
     }

@@ -4,11 +4,15 @@ import webapp.exceptions.StorageException;
 import webapp.model.Resume;
 
 import java.io.*;
+import java.util.logging.Logger;
 
-public class ObjectStreamStorage extends AbstractFileStorage {
-    protected ObjectStreamStorage(File directory) {
+
+public class ObjectStreamFileStorage extends AbstractFileStorage {
+    protected ObjectStreamFileStorage(File directory) {
         super(directory);
     }
+
+    private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
     @Override
     protected void doWrite(Resume r, OutputStream os) throws IOException {
@@ -20,6 +24,7 @@ public class ObjectStreamStorage extends AbstractFileStorage {
     @Override
     protected Resume doRead(InputStream is) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
+            LOG.info("doRead ");
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {
             throw new StorageException("Error read resume");

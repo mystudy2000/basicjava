@@ -1,9 +1,19 @@
 package webapp.storage;
 
+import webapp.exceptions.StorageException;
+import webapp.model.Resume;
+
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public abstract class AbstractPathStorage extends AbstractStorage<Path> {
-/**    private Path directory;
+    private Path directory;
 
     protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
 
@@ -22,75 +32,75 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             Files.list(directory).forEach(this::doDelete);
         } catch (IOException e) {
-            throw new StorageException("Path delete error");
+            throw new StorageException("Clear: Path delete error", e);
         }
     }
 
     @Override
     public int size() {
-        String[] list = directory.list();
-        if (list == null) {
-            throw new StorageException("Directory read error");
+        try {
+            return (int) Files.list(directory).count();
+        } catch (IOException e) {
+            throw new StorageException("Size: Directory read error", e);
         }
-        return list.length;
     }
 
     @Override
     protected Path getSearchKey(UUID uuid) {
-        return new Path(directory, uuid);
+        return directory.resolve(String.valueOf(uuid));
     }
 
     @Override
-    protected void doUpdate(Resume r, Path Path) {
+    protected void doUpdate(Path path, Resume r) {
         try {
-            doWrite(r, new BufferedOutputStream(new PathOutputStream(Path)));
+            doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Path write error "+r.getUuid());
+            throw new StorageException("doUpdate: Path write error " + r.getUuid(), e);
         }
     }
 
     @Override
-    protected boolean isExist(Path Path) {
-        return Path.exists();
+    protected boolean isExist(Path path) {
+        return Files.isRegularFile(path);
     }
 
     @Override
-    protected void doSave(Resume r, Path Path) {
+    protected void doSave(Resume r, Path path) {
         try {
-            Path.createNewPath();
+            Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Couldn't create Path " + Path.getAbsolutePath(), Path.getName(), e);
+            throw new StorageException("doSave: Couldn't create path " + path, e);
         }
-        doUpdate(r, Path);
+        doUpdate(path, r);
     }
 
     @Override
-    protected Resume doGet(Path Path) {
+    protected Resume doGet(Path path) {
         try {
-            return doRead(new BufferedInputStream(new PathInputStream(Path)));
+            return doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Path read error", Path.getName(), e);
+            throw new StorageException("doGet: Path read error" + path, e);
         }
     }
 
     @Override
-    protected void doDelete(Path Path) {
-        if (!Path.delete()) {
-            throw new StorageException("Path delete error", Path.getName());
+    protected void doDelete(Path path) {
+        if (!Files.exists(path)) { throw new StorageException ("doDelete: File " + path + " is not exist");}
+        else if (Files.isDirectory(path))  { throw new StorageException("doDelete: File " + path + " is directory");}
+        else try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            throw new StorageException("doDelete: Path delete error" + path, e);
         }
     }
 
     @Override
-    protected List<Resume> doCopyAll() {
-        Path[] Paths = directory.listPaths();
-        if (Paths == null) {
-            throw new StorageException("Directory read error", null);
+    protected List<Resume> doGetAll() {
+        try {
+            return Files.list(directory).map(this::doGet).collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new StorageException("doGetAll: Directory not found ", e);
         }
-        List<Resume> list = new ArrayList<>(Paths.length);
-        for (Path Path : Paths) {
-            list.add(doGet(Path));
-        }
-        return list;
     }
-*/
+
 }
