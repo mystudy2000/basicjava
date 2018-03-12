@@ -1,8 +1,9 @@
 package webapp.storage;
 
-public class ObjectStreamFileStorageTest extends AbstractStorageTest {
+import webapp.storage.serialization.ObjectStreamStrategy;
 
+public class ObjectStreamFileStorageTest extends AbstractStorageTest {
     public ObjectStreamFileStorageTest() {
-        super(new ObjectStreamFileStorage(STORAGE_DIR));
+        super(new FileStorage(STORAGE_DIR, new ObjectStreamStrategy()));
     }
 }

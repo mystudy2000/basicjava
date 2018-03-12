@@ -2,27 +2,31 @@ package webapp.storage;
 
 import webapp.exceptions.StorageException;
 import webapp.model.Resume;
+import webapp.storage.serialization.SerializationStrategy;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private File dir;
+    private SerializationStrategy serializationStrategy;
 
-    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
+    FileStorage(File directory, SerializationStrategy serializationStrategy) {
+        Objects.requireNonNull(directory, "directory must not be null");
 
-    protected abstract Resume doRead(InputStream is) throws IOException;
+        this.dir = directory;
+        this.serializationStrategy = serializationStrategy;
 
-    protected AbstractFileStorage(File directory) {
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory format");
         }
         if (!directory.canRead() || !directory.canWrite()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable or writable");
         }
-        this.dir = directory;
+
     }
 
     @Override
@@ -53,9 +57,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(File file, Resume r) {
         try {
-            doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
+            serializationStrategy.doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("doUpdate: File read error " + file.getName(),e);
+            throw new StorageException("doUpdate: File read error " + file.getName(), e);
         }
     }
 
@@ -78,7 +82,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File file) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(file)));
+            return serializationStrategy.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("doGet: File read error " + file.getName(), e);
         }
@@ -86,9 +90,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doDelete(File file) {
-        if (file.isDirectory()) {throw new StorageException("doDelete: File " + file + " is directory");}
-        else if (!file.exists()) {throw new StorageException("doDelete: File " + file + " is not exist");}
-        else if (!file.delete()) {
+        if (file.isDirectory()) {
+            throw new StorageException("doDelete: File " + file + " is directory");
+        } else if (!file.exists()) {
+            throw new StorageException("doDelete: File " + file + " is not exist");
+        } else if (!file.delete()) {
             throw new StorageException("doDelete: File delete error " + file);
         }
     }

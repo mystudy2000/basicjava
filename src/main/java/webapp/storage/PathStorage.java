@@ -2,8 +2,11 @@ package webapp.storage;
 
 import webapp.exceptions.StorageException;
 import webapp.model.Resume;
+import webapp.storage.serialization.SerializationStrategy;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,17 +15,17 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
-    private Path directory;
+public class PathStorage extends AbstractStorage<Path> {
+    private Path dir;
+    private SerializationStrategy serializationStrategy;
 
-    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
-
-    protected abstract Resume doRead(InputStream is) throws IOException;
-
-    protected AbstractPathStorage(String dir) {
-        directory = Paths.get(dir);
+    PathStorage(String directory, SerializationStrategy serializationStrategy) {
         Objects.requireNonNull(directory, "directory must not be null");
-        if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
+
+        this.dir = Paths.get(directory);
+        this.serializationStrategy = serializationStrategy;
+
+        if (!Files.isDirectory(dir) || !Files.isWritable(dir)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
     }
@@ -30,7 +33,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     public void clear() {
         try {
-            Files.list(directory).forEach(this::doDelete);
+            Files.list(dir).forEach(this::doDelete);
         } catch (IOException e) {
             throw new StorageException("Clear: Path delete error", e);
         }
@@ -39,7 +42,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     public int size() {
         try {
-            return (int) Files.list(directory).count();
+            return (int) Files.list(dir).count();
         } catch (IOException e) {
             throw new StorageException("Size: Directory read error", e);
         }
@@ -47,13 +50,13 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Path getSearchKey(UUID uuid) {
-        return directory.resolve(String.valueOf(uuid));
+        return dir.resolve(String.valueOf(uuid));
     }
 
     @Override
     protected void doUpdate(Path path, Resume r) {
         try {
-            doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
+            serializationStrategy.doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("doUpdate: Path write error " + r.getUuid(), e);
         }
@@ -77,7 +80,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return doRead(new BufferedInputStream(Files.newInputStream(path)));
+            return serializationStrategy.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException("doGet: Path read error" + path, e);
         }
@@ -85,9 +88,11 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected void doDelete(Path path) {
-        if (!Files.exists(path)) { throw new StorageException ("doDelete: File " + path + " is not exist");}
-        else if (Files.isDirectory(path))  { throw new StorageException("doDelete: File " + path + " is directory");}
-        else try {
+        if (!Files.exists(path)) {
+            throw new StorageException("doDelete: File " + path + " is not exist");
+        } else if (Files.isDirectory(path)) {
+            throw new StorageException("doDelete: File " + path + " is directory");
+        } else try {
             Files.deleteIfExists(path);
         } catch (IOException e) {
             throw new StorageException("doDelete: Path delete error" + path, e);
@@ -97,7 +102,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected List<Resume> doGetAll() {
         try {
-            return Files.list(directory).map(this::doGet).collect(Collectors.toList());
+            return Files.list(dir).map(this::doGet).collect(Collectors.toList());
         } catch (IOException e) {
             throw new StorageException("doGetAll: Directory not found ", e);
         }
