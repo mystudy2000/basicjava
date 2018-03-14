@@ -1,10 +1,12 @@
 package webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Objects;
 
 import static webapp.model.Section.EMPTY_STRING;
-
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Link implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -46,8 +48,7 @@ public class Link implements Serializable {
 
         Link link = (Link) o;
 
-        if (!name.equals(link.name)) return false;
-        return url != null ? url.equals(link.url) : link.url == null;
+        return name.equals(link.name) && (url != null ? url.equals(link.url) : link.url == null);
 
     }
 

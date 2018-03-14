@@ -4,11 +4,15 @@ import java.util.Objects;
 
 public class StringSection extends Section {
     private static final long serialVersionUID = 1L;
-    public static final StringSection EMPTY = new StringSection(EMPTY_STRING);
+    public static final StringSection EMPTY = new StringSection();
     private String stringSection;
 
     public String getStringSection() {
         return stringSection;
+    }
+
+    public StringSection() {
+        this.stringSection = EMPTY_STRING;
     }
 
     public StringSection(String stringSection) {
