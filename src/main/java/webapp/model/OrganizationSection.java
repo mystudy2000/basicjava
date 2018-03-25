@@ -9,6 +9,10 @@ public class OrganizationSection extends Section {
     public static final OrganizationSection EMPTY = new OrganizationSection(Organization.EMPTY);
     private List<Organization> organizations;
 
+    public List<Organization> getOrganizationSection() {
+        return organizations;
+    }
+
     public OrganizationSection() {}
 
     public OrganizationSection(List<Organization> organizations) {
