@@ -58,8 +58,10 @@ public class DataStreamStrategy implements SerializationStrategy {
             UUID uuid = UUID.fromString(dis.readUTF());
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            readItems(dis, () -> {resume.setContact(TypeOfContact.valueOf(dis.readUTF()), dis.readUTF());
-            return true;});
+            readItems(dis, () -> {
+                resume.setContact(TypeOfContact.valueOf(dis.readUTF()), dis.readUTF());
+                return true;
+            });
             readItems(dis, () -> {
                 TypeOfSection sectionType = TypeOfSection.valueOf(dis.readUTF());
                 resume.setSection(sectionType, readSection(dis, sectionType));
@@ -123,10 +125,12 @@ public class DataStreamStrategy implements SerializationStrategy {
     }
 
     private void WriteLocalDateToString(DataOutputStream dos, LocalDate localDate) throws IOException {
-        dos.writeUTF(localDate.format(ISO_LOCAL_DATE));}
+        dos.writeUTF(localDate.format(ISO_LOCAL_DATE));
+    }
 
     private LocalDate ReadStringToLocalDate(DataInputStream dis) throws IOException {
-        return LocalDate.parse(dis.readUTF(),ISO_LOCAL_DATE); }
+        return LocalDate.parse(dis.readUTF(), ISO_LOCAL_DATE);
+    }
 
 
 }

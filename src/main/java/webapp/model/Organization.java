@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -18,11 +19,11 @@ public class Organization implements Serializable {
     // Constructors
     Organization() {
         this.positions.add(new Position());
-        this.homePage=new Link();
+        this.homePage = new Link();
     }
 
-    public Organization(String name, String url,  Position... positions) {
-        this(new Link(name,url), Arrays.asList(positions));
+    public Organization(String name, String url, Position... positions) {
+        this(new Link(name, url), Arrays.asList(positions));
     }
 
     public Organization(Link homePage, List<Position> positions) {
