@@ -3,9 +3,9 @@ package webapp.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
-import java.util.Objects;
 
 import static webapp.model.Section.EMPTY_STRING;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Link implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -14,9 +14,8 @@ public class Link implements Serializable {
     private final String url;
 
     public Link(String name, String url) {
-        Objects.requireNonNull(name, "name must not be null");
-        this.name = name;
-        this.url = url;
+        this.name = name == null ? EMPTY_STRING : name;
+        this.url = url == null ? EMPTY_STRING : url;
     }
 
     public Link(String name) {

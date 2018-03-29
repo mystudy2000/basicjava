@@ -4,7 +4,7 @@ import webapp.model.Resume;
 
 import java.util.*;
 
-public class MapResumeStorage extends AbstractStorage <Resume> {
+public class MapResumeStorage extends AbstractStorage<Resume> {
 
     private Map<UUID, Resume> resumeMap = new HashMap<>();
 
@@ -15,20 +15,28 @@ public class MapResumeStorage extends AbstractStorage <Resume> {
 
     @Override
     protected boolean isExist(Resume r) {
-        return r!=null;
+        return r != null;
     }
 
     @Override
-    protected void doUpdate(Resume rToMap, Resume rFromMap) { resumeMap.put(rToMap.getUuid(), rFromMap); }
+    protected void doUpdate(Resume rToMap, Resume rFromMap) {
+        resumeMap.put(rToMap.getUuid(), rFromMap);
+    }
 
     @Override
-    protected void doSave(Resume r, Resume SK) {resumeMap.put(r.getUuid(),r);}
+    protected void doSave(Resume r, Resume SK) {
+        resumeMap.put(r.getUuid(), r);
+    }
 
     @Override
-    protected Resume doGet(Resume r) { return r; }
+    protected Resume doGet(Resume r) {
+        return r;
+    }
 
     @Override
-    protected void doDelete(Resume r) { resumeMap.remove(r.getUuid());}
+    protected void doDelete(Resume r) {
+        resumeMap.remove(r.getUuid());
+    }
 
     @Override
     public void clear() {
@@ -36,7 +44,9 @@ public class MapResumeStorage extends AbstractStorage <Resume> {
     }
 
     @Override
-    public List<Resume> doGetAll() {return new ArrayList<>(resumeMap.values());}
+    public List<Resume> doGetAll() {
+        return new ArrayList<>(resumeMap.values());
+    }
 
     @Override
     public int size() {

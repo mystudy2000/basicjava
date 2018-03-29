@@ -13,7 +13,8 @@ public class ListSection extends Section {
         return listSection;
     }
 
-    public ListSection() {}
+    public ListSection() {
+    }
 
     public ListSection(List<String> listSection) {
         this.listSection = listSection;

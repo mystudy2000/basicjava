@@ -13,7 +13,8 @@ public class OrganizationSection extends Section {
         return organizations;
     }
 
-    public OrganizationSection() {}
+    public OrganizationSection() {
+    }
 
     public OrganizationSection(List<Organization> organizations) {
         this.organizations = organizations;

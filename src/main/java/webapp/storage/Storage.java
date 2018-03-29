@@ -7,11 +7,17 @@ import java.util.UUID;
 
 public interface Storage {
 
-    void     clear();
-    void     update(UUID uuid, Resume r);
-    void     save(Resume r);
-    Resume   get(UUID uuid);
-    void     delete(UUID uuid);
+    void clear();
+
+    void update(UUID uuid, Resume r);
+
+    void save(Resume r);
+
+    Resume get(UUID uuid);
+
+    void delete(UUID uuid);
+
     List<Resume> getAllSorted();
-    int      size();
+
+    int size();
 }

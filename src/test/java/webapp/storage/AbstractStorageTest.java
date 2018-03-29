@@ -29,7 +29,6 @@ public abstract class AbstractStorageTest {
     protected Resume r;
     // Depth of test data and length of test string
     static int ArrayLengthLimit = 3;
-    private static int stringLength = 20;
     // Array for unit testing
     static Resume[] testArray = new Resume[ArrayLengthLimit];
 
@@ -42,8 +41,8 @@ public abstract class AbstractStorageTest {
                 .collect(Collectors.joining());
     }
 
-    private static ArrayList<String> newSubList(List originalList, int from, int to) {
-        return new ArrayList<String>(originalList.subList(from, to));
+    private static java.util.ArrayList newSubList(List originalList) {
+        return new ArrayList<String>(originalList.subList(0, 3));
     }
 
     @BeforeClass
@@ -68,14 +67,15 @@ public abstract class AbstractStorageTest {
             Collections.shuffle(listOfEducationName);
             LocalDate randomDateBegin = LocalDate.now().minusDays(generator.nextInt(10000) + 365);
             LocalDate randomDateEnd = randomDateBegin.plusDays(generator.nextInt(1095));
+            int stringLength = 20;
             testArray[i] = new Resume(createRandomString(stringLength));
             testArray[i].setContact(SKYPE, createRandomString(stringLength));
             testArray[i].setContact(HOMEPHONE, "+8 495-" + Integer.toString(generator.nextInt(8999999) + 1000000));
             testArray[i].setContact(MOBILEPHONE, "+7 095-" + Integer.toString(generator.nextInt(8999999) + 1000000));
             testArray[i].setSection(OBJECTIVE, new StringSection(createRandomString(stringLength)));
             testArray[i].setSection(PERSONAL, new StringSection(createRandomString(stringLength)));
-            testArray[i].setSection(ACHIEVEMENT, new ListSection(newSubList(listOfAchivements, 0, 3)));
-            testArray[i].setSection(QUALIFICATIONS, new ListSection(newSubList(listOfQualifications, 0, 3)));
+            testArray[i].setSection(ACHIEVEMENT, new ListSection(newSubList(listOfAchivements)));
+            testArray[i].setSection(QUALIFICATIONS, new ListSection(newSubList(listOfQualifications)));
             testArray[i].setSection(EXPERIENCE, new OrganizationSection(new Organization(listOfOrganizationsName.get(0), createRandomString(stringLength), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(0), listOfPosDescr.get(0)),
                     new Position(randomDateBegin, randomDateEnd, listOfPositions.get(1), listOfPosDescr.get(1)), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(2), listOfPosDescr.get(2))),
                     new Organization(listOfOrganizationsName.get(1), createRandomString(stringLength), new Position(randomDateBegin, randomDateEnd, listOfPositions.get(1), listOfPosDescr.get(1)),

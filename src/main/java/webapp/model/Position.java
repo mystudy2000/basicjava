@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import static webapp.model.Section.EMPTY_DATE;
 import static webapp.model.Section.EMPTY_STRING;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Position implements Serializable {
     // Data structure
@@ -22,14 +23,14 @@ public class Position implements Serializable {
     private String description;
 
     public Position() {
-        this(EMPTY_DATE,EMPTY_DATE,EMPTY_STRING,EMPTY_STRING);
+        this(EMPTY_DATE, EMPTY_DATE, EMPTY_STRING, EMPTY_STRING);
     }
 
     public Position(LocalDate startDate, LocalDate endDate, String positionName, String description) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.positionName = positionName;
-        this.description = description;
+        this.description = description == null ? EMPTY_STRING : description;
     }
 
     // Getters

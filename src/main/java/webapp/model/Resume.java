@@ -120,7 +120,7 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     @Override
     public String toString() {
-        return  "Resume [" + "\n" +
+        return "Resume [" + "\n" +
                 "uuid=" + uuid + "\n" +
                 "fullName=" + fullName + "\n" +
                 "contacts.HOMEPHONE=" + getContact(HOMEPHONE) + "\n" +
