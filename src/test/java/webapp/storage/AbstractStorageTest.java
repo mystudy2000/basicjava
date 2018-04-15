@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import webapp.exceptions.StorageException;
 import webapp.model.*;
+import webapp.util.Config;
 
 import java.io.File;
 import java.security.SecureRandom;
@@ -18,7 +19,7 @@ import static webapp.model.TypeOfSection.*;
 
 public abstract class AbstractStorageTest {
 
-    protected static final File STORAGE_DIR = new File("C:\\projects\\storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
     Storage storage;
 
