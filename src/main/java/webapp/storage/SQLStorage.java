@@ -6,6 +6,7 @@ import webapp.model.TypeOfContact;
 import webapp.sql.SQLHelper;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,20 +76,24 @@ public class SQLStorage implements Storage {
 
     @Override
     public void save(Resume r) {
-        sqlHelper.execution(SQL_SAVE_RESUME, preparedStatement -> {
-            preparedStatement.setString(1, String.valueOf(r.getUuid()));
-            preparedStatement.setString(2, r.getFullName());
-            preparedStatement.execute();
-            return null;
-        });
-        for (Map.Entry<TypeOfContact, String> e : r.getContacts().entrySet()) {
-            sqlHelper.execution("INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)", preparedStatement -> {
-                preparedStatement.setString(1, String.valueOf(r.getUuid()));
-                preparedStatement.setString(2, e.getKey().name());
-                preparedStatement.setString(3, e.getValue());
-                return null;
-            });
-        }
+        sqlHelper.transactionalExecute(conn -> {
+                    try (PreparedStatement ps = conn.prepareStatement("INSERT INTO resume (uuid, full_name) VALUES (?,?)")) {
+                        ps.setString(1, String.valueOf(r.getUuid()));
+                        ps.setString(2, r.getFullName());
+                        ps.execute();
+                    }
+                    try (PreparedStatement ps = conn.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)")) {
+                        for (Map.Entry<TypeOfContact, String> e : r.getContacts().entrySet()) {
+                            ps.setString(1, String.valueOf(r.getUuid()));
+                            ps.setString(2, e.getKey().name());
+                            ps.setString(3, e.getValue());
+                            ps.addBatch();
+                        }
+                        ps.executeBatch();
+                    }
+                    return null;
+                }
+        );
     }
 
     @Override
