@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
-    static final int STORAGE_LIMIT = 10000;
+    static final int STORAGE_LIMIT = 1000;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
 

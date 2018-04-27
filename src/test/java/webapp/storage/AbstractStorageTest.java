@@ -121,8 +121,10 @@ public abstract class AbstractStorageTest {
     @Test
     public void storageGetAllSortedTest() throws StorageException {
         // ------- Storage method GETALLSORTED test --------*/
-        List<Resume> ListFromStorage = storage.getAllSorted();
-        assertEquals(storage.size(), ListFromStorage.size());
+        List<Resume> listFromStorage = storage.getAllSorted();
+        Collections.sort(Arrays.asList(testArray));
+        assertEquals(storage.size(), listFromStorage.size());
+        assertEquals(listFromStorage, Arrays.asList(testArray));
     }
 
     @Test
@@ -132,6 +134,7 @@ public abstract class AbstractStorageTest {
         int i = storage.size();
         storage.save(r);
         assertEquals(i + 1, storage.size());
+        assertEquals(r, storage.get(r.getUuid()));
     }
 
     @Test
