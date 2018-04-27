@@ -4,7 +4,6 @@ import webapp.exceptions.StorageException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SQLHelper {
@@ -28,18 +27,5 @@ public class SQLHelper {
 
     public interface SqlExecution<T> {
         T execution(PreparedStatement st) throws SQLException;
-    }
-
-    public static void closeResultSet(ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                System.out.println("SQLException message: " + e.getMessage());
-                System.out.println("SQLException SQL state: " + e.getSQLState());
-                System.out.println("SQLException SQL error code: " + e.getErrorCode());
-                throw new StorageException("SQL command problem!");
-            }
-        }
     }
 }

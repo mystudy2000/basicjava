@@ -50,7 +50,6 @@ public class SQLStorage implements Storage {
                 throw new StorageException(String.valueOf(uuid));
             }
             String name = resultSet.getString("full_name");
-            SQLHelper.closeResultSet(resultSet);
             return new Resume(UUID.fromString(String.valueOf(uuid)), name);
         });
 
@@ -97,7 +96,6 @@ public class SQLStorage implements Storage {
             while (resultSet.next()) {
                 resumes.add(new Resume(UUID.fromString(resultSet.getString("uuid")), resultSet.getString("full_name")));
             }
-            SQLHelper.closeResultSet(resultSet);
             return resumes;
         });
     }
@@ -107,7 +105,6 @@ public class SQLStorage implements Storage {
         return sqlHelper.execution(SQL_TABLE_SIZE, preparedStatement -> {
             ResultSet resultSet = preparedStatement.executeQuery();
             int sizeOf = resultSet.next() ? resultSet.getInt(1) : 0;
-            SQLHelper.closeResultSet(resultSet);
             return sizeOf;
         });
     }
