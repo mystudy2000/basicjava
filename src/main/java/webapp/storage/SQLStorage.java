@@ -2,18 +2,20 @@ package webapp.storage;
 
 import webapp.exceptions.StorageException;
 import webapp.model.Resume;
+import webapp.model.TypeOfContact;
 import webapp.sql.SQLHelper;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class SQLStorage implements Storage {
 
     private static final String SQL_CLEAR_ALL = "DELETE FROM resume";
-    private static final String SQL_GET_RESUME = "SELECT * FROM resume r WHERE r.uuid =?";
+    private static final String SQL_GET_RESUME = "SELECT * FROM resume r LEFT JOIN contact c ON r.uuid =c.resume_uuid WHERE r.uuid =?";
     private static final String SQL_UPDATE_RESUME = "UPDATE resume SET full_name = ? WHERE uuid = ?";
     private static final String SQL_SAVE_RESUME = "INSERT INTO resume (uuid, full_name) VALUES (?,?)";
     private static final String SQL_DELETE_RESUME = "DELETE FROM resume WHERE uuid=?";
@@ -34,11 +36,10 @@ public class SQLStorage implements Storage {
     @Override
     public void clear() {
         sqlHelper.execution(SQL_CLEAR_ALL, preparedStatement -> {
-            if (preparedStatement.executeUpdate() == 0) {
-                throw new StorageException("Table resume is empty already.");
-            }
-            return null;
-        });
+                    preparedStatement.executeUpdate();
+                    return null;
+                }
+        );
     }
 
     @Override
@@ -49,8 +50,13 @@ public class SQLStorage implements Storage {
             if (!resultSet.next()) {
                 throw new StorageException(String.valueOf(uuid));
             }
-            String name = resultSet.getString("full_name");
-            return new Resume(UUID.fromString(String.valueOf(uuid)), name);
+            Resume r = new Resume(uuid, resultSet.getString("full_name"));
+            do {
+                String value = resultSet.getString("value");
+                TypeOfContact type = TypeOfContact.valueOf(resultSet.getString("type"));
+                r.setContact(type, value);
+            } while (resultSet.next());
+            return r;
         });
 
     }
@@ -75,6 +81,14 @@ public class SQLStorage implements Storage {
             preparedStatement.execute();
             return null;
         });
+        for (Map.Entry<TypeOfContact, String> e : r.getContacts().entrySet()) {
+            sqlHelper.execution("INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)", preparedStatement -> {
+                preparedStatement.setString(1, String.valueOf(r.getUuid()));
+                preparedStatement.setString(2, e.getKey().name());
+                preparedStatement.setString(3, e.getValue());
+                return null;
+            });
+        }
     }
 
     @Override
