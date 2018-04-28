@@ -130,11 +130,12 @@ public abstract class AbstractStorageTest {
     @Test
     public void storageSaveTest() throws StorageException {
         // ------- Storage method SAVE test ----------------*/
-        r = new Resume("ivanoff");
+        UUID uuid = testArray[0].getUuid();
+        storage.delete(uuid);
         int i = storage.size();
-        storage.save(r);
+        storage.save(testArray[0]);
         assertEquals(i + 1, storage.size());
-        assertEquals(r, storage.get(r.getUuid()));
+        assertEquals(testArray[0], storage.get(uuid));
     }
 
     @Test
@@ -155,11 +156,10 @@ public abstract class AbstractStorageTest {
     public void storageUpdateTest() throws StorageException {
         // ------- Storage method UPDATE test-----------------*/
         UUID uuid = testArray[0].getUuid();
-        String fullName = "petroff";
-        r = new Resume(uuid, fullName);
+        testArray[0].setFullName("petroff");
         if (storage.size() != 0) {
-            storage.update(r.uuid, r);
-            assertEquals(r, storage.get(r.uuid));
+            storage.update(uuid, testArray[0] );
+            assertEquals(testArray[0],storage.get(uuid));
         } else System.out.println("Storage size = 0! No update!");
     }
 

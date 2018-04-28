@@ -16,7 +16,7 @@ import java.util.UUID;
 public class SQLStorage implements Storage {
 
     private static final String SQL_CLEAR_ALL = "DELETE FROM resume";
-    private static final String SQL_GET_RESUME = "SELECT * FROM resume r LEFT JOIN contact c ON r.uuid =c.resume_uuid WHERE r.uuid =?";
+    private static final String SQL_GET  = "SELECT * FROM resume r LEFT JOIN contact c ON r.uuid =c.resume_uuid WHERE r.uuid =?";
     private static final String SQL_UPDATE_RESUME = "UPDATE resume SET full_name = ? WHERE uuid = ?";
     private static final String SQL_SAVE_RESUME = "INSERT INTO resume (uuid, full_name) VALUES (?,?)";
     private static final String SQL_DELETE_RESUME = "DELETE FROM resume WHERE uuid=?";
@@ -45,7 +45,7 @@ public class SQLStorage implements Storage {
 
     @Override
     public Resume get(UUID uuid) {
-        return sqlHelper.execution(SQL_GET_RESUME, preparedStatement -> {
+        return sqlHelper.execution(SQL_GET, preparedStatement -> {
             preparedStatement.setString(1, String.valueOf(uuid));
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
@@ -123,8 +123,7 @@ public class SQLStorage implements Storage {
     public int size() {
         return sqlHelper.execution(SQL_TABLE_SIZE, preparedStatement -> {
             ResultSet resultSet = preparedStatement.executeQuery();
-            int sizeOf = resultSet.next() ? resultSet.getInt(1) : 0;
-            return sizeOf;
+            return resultSet.next() ? resultSet.getInt(1) : 0;
         });
     }
 
