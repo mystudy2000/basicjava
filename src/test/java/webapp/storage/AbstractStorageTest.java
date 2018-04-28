@@ -29,7 +29,7 @@ public abstract class AbstractStorageTest {
 
     protected Resume r;
     // Depth of test data and length of test string
-    static int ArrayLengthLimit = 3;
+    static int ArrayLengthLimit = 5;
     // Array for unit testing
     static Resume[] testArray = new Resume[ArrayLengthLimit];
 
@@ -124,7 +124,7 @@ public abstract class AbstractStorageTest {
         List<Resume> listFromStorage = storage.getAllSorted();
         Collections.sort(Arrays.asList(testArray));
         assertEquals(storage.size(), listFromStorage.size());
-        assertEquals(listFromStorage, Arrays.asList(testArray));
+        assertEquals(Arrays.asList(testArray), listFromStorage);
     }
 
     @Test
@@ -157,6 +157,7 @@ public abstract class AbstractStorageTest {
         // ------- Storage method UPDATE test-----------------*/
         UUID uuid = testArray[0].getUuid();
         testArray[0].setFullName("petroff");
+        testArray[0].setContact(TypeOfContact.HOMEPHONE,"+ 7 777 7777777");
         if (storage.size() != 0) {
             storage.update(uuid, testArray[0] );
             assertEquals(testArray[0],storage.get(uuid));
