@@ -8,6 +8,9 @@ import webapp.sql.SQLHelper;
 import java.sql.*;
 import java.util.*;
 
+// TODO implement Section (except OrganizationSection)
+// TODO Join and split ListSection by `\n`
+
 public class SQLStorage implements Storage {
 
     private static final String SQL_CLEAR_ALL = "DELETE FROM resume";
