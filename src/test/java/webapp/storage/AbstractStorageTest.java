@@ -69,10 +69,17 @@ public abstract class AbstractStorageTest {
             LocalDate randomDateBegin = LocalDate.now().minusDays(generator.nextInt(10000) + 365);
             LocalDate randomDateEnd = randomDateBegin.plusDays(generator.nextInt(1095));
             int stringLength = 20;
+            String name = createRandomString(5);
             testArray[i] = new Resume(createRandomString(stringLength));
             testArray[i].setContact(SKYPE, createRandomString(stringLength));
             testArray[i].setContact(HOMEPHONE, "+8 495-" + Integer.toString(generator.nextInt(8999999) + 1000000));
             testArray[i].setContact(MOBILEPHONE, "+7 095-" + Integer.toString(generator.nextInt(8999999) + 1000000));
+            testArray[i].setContact(MAIL, name + "@" + createRandomString(3) + ".com");
+            testArray[i].setContact(SKYPE, name+"_skype");
+            testArray[i].setContact(LINKEDIN,"https://www.linkedin.com/in/" + name + "/");
+            testArray[i].setContact(STACKOVERFLOW, "https://stackoverflow.com/users/"+ Integer.toString(generator.nextInt(1111111) + 9999999) + "/" + name);
+            testArray[i].setContact(GITHUB, "https://github.com/" + name);
+            testArray[i].setContact(HOMEPAGE, "www." + name + ".pro");
             testArray[i].setSection(OBJECTIVE, new StringSection(createRandomString(stringLength)));
             testArray[i].setSection(PERSONAL, new StringSection(createRandomString(stringLength)));
             testArray[i].setSection(ACHIEVEMENT, new ListSection(newSubList(listOfAchivements)));
