@@ -1,3 +1,5 @@
+package webapp.web;
+
 import webapp.model.Resume;
 import webapp.model.TypeOfContact;
 import webapp.storage.Storage;
