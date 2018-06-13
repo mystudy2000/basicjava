@@ -31,7 +31,7 @@ public abstract class AbstractStorageTest {
     // Depth of test data and length of test string
     static int ArrayLengthLimit = 5;
     // Array for unit testing
-    static Resume[] testArray = new Resume[ArrayLengthLimit];
+    public static Resume[] testArray = new Resume[ArrayLengthLimit];
 
     private static String createRandomString(int codeLength) {
         final String id = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
