@@ -22,6 +22,8 @@ public class Position implements Serializable {
     private String positionName;
     private String description;
 
+    public static final Position EMPTY = new Position();
+
     public Position() {
         this(EMPTY_DATE, EMPTY_DATE, EMPTY_STRING, EMPTY_STRING);
     }
