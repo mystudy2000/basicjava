@@ -28,7 +28,7 @@ public class Resume implements Comparable<Resume>, Serializable {
     public static final Resume EMPTY = new Resume();
 
     static {
-        EMPTY.setContact(TypeOfContact.EMPTY, EMPTY_STRING);
+ //       EMPTY.setContact(TypeOfContact.EMPTY, EMPTY_STRING);
         EMPTY.setSection(OBJECTIVE, StringSection.EMPTY);
         EMPTY.setSection(TypeOfSection.PERSONAL, StringSection.EMPTY);
         EMPTY.setSection(TypeOfSection.ACHIEVEMENT, ListSection.EMPTY);
