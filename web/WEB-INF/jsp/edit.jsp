@@ -1,5 +1,6 @@
 <%@ page import="webapp.model.TypeOfContact" %>
 <%@ page import="webapp.model.ListSection" %>
+<%@ page import="webapp.model.StringSection" %>
 <%@ page import="webapp.model.OrganizationSection" %>
 <%@ page import="webapp.model.TypeOfSection" %>
 <%@ page import="webapp.util.DateUtil" %>
@@ -45,14 +46,14 @@
                               rows=5><%=String.join("\n", ((ListSection) section).getListSection())%></textarea>
                 </c:when>
                 <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
-                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizationSection()%>"
+                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>"
                                varStatus="counter">
                         <dl>
-                            <dt>Название учереждения:</dt>
-                            <dd><input type="text" name='${type}' size=100 value="${org.homePage.name}"></dd>
+                            <dt>Организация:</dt>
+                            <dd><input type="text" name='${type}' size=200 value="${org.homePage.name}"></dd>
                         </dl>
                         <dl>
-                            <dt>Сайт учереждения:</dt>
+                            <dt>Сайт организации:</dt>
                             <dd><input type="text" name='${type}url' size=100 value="${org.homePage.url}"></dd>
                             </dd>
                         </dl>
@@ -76,10 +77,10 @@
                                 <dl>
                                     <dt>Должность:</dt>
                                     <dd><input type="text" name='${type}${counter.index}title' size=75
-                                               value="${pos.title}">
+                                               value="${pos.positionName}">
                                 </dl>
                                 <dl>
-                                    <dt>Описание:</dt>
+                                    <dt>Описание обязанностей:</dt>
                                     <dd><textarea name="${type}${counter.index}description" rows=5
                                                   cols=75>${pos.description}</textarea></dd>
                                 </dl>

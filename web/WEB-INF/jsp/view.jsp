@@ -60,7 +60,7 @@
                     </tr>
                 </c:when>
                 <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
-                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizationSection()%>">
+                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
                         <tr>
                             <td colspan="2">
                                 <c:choose>
@@ -78,7 +78,7 @@
                             <tr>
                                 <td width="15%" style="vertical-align: top"><%=HtmlUtil.formatDates(position)%>
                                 </td>
-                                <td><b>${position.title}</b><br>${position.description}</td>
+                                <td><b>${position.positionName}</b><br>${position.description}</td>
                             </tr>
                         </c:forEach>
                     </c:forEach>

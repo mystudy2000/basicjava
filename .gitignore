@@ -1,8 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
-.gradle/
 .idea/
 lib/
 out/
-src/main/resources/
 src/test/resources/
-vpproject/

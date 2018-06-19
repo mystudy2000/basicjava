@@ -3,6 +3,7 @@ package webapp.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
+import java.util.Objects;
 
 import static webapp.model.Section.EMPTY_STRING;
 
@@ -10,11 +11,12 @@ import static webapp.model.Section.EMPTY_STRING;
 public class Link implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final String name;
-    private final String url;
+    private String name;
+    private String url;
 
     public Link(String name, String url) {
-        this.name = name == null ? EMPTY_STRING : name;
+        Objects.requireNonNull(name, "name must not be null");
+        this.name = name;
         this.url = url == null ? EMPTY_STRING : url;
     }
 
@@ -23,7 +25,6 @@ public class Link implements Serializable {
     }
 
     public Link() {
-        this(EMPTY_STRING, EMPTY_STRING);
     }
 
 

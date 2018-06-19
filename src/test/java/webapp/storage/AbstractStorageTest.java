@@ -129,7 +129,7 @@ public abstract class AbstractStorageTest {
     public void storageGetAllSortedTest() throws StorageException {
         // ------- Storage method GETALLSORTED test --------*/
         List<Resume> listFromStorage = storage.getAllSorted();
-        Collections.sort(Arrays.asList(testArray));
+        Arrays.sort(testArray);
         assertEquals(storage.size(), listFromStorage.size());
         assertEquals(Arrays.asList(testArray), listFromStorage);
     }

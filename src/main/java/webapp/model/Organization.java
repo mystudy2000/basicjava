@@ -8,18 +8,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static webapp.model.Section.EMPTY_STRING;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
-    public static final Organization EMPTY = new Organization();
+    public static final Organization EMPTY = new Organization(EMPTY_STRING, EMPTY_STRING, Position.EMPTY);
     // Data structure
     private Link homePage;
-    private List<Position> positions = new ArrayList();
+    private List<Position> positions = new ArrayList<>();
 
-    // Constructors
-    Organization() {
-        this.positions.add(new Position());
-        this.homePage = new Link();
+    public Organization() {
+
     }
 
     public Organization(String name, String url, Position... positions) {
@@ -44,7 +44,7 @@ public class Organization implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Organization)) return false;
         Organization that = (Organization) o;
-        return Objects.equals(getHomePage(), that.getHomePage()) &&
+        return Objects.equals(homePage, that.homePage) &&
                 Objects.equals(getPositions(), that.getPositions());
     }
 

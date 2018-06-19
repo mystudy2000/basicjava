@@ -28,7 +28,7 @@ public class Resume implements Comparable<Resume>, Serializable {
     public static final Resume EMPTY = new Resume();
 
     static {
- //       EMPTY.setContact(TypeOfContact.EMPTY, EMPTY_STRING);
+        //       EMPTY.setContact(TypeOfContact.EMPTY, EMPTY_STRING);
         EMPTY.setSection(OBJECTIVE, StringSection.EMPTY);
         EMPTY.setSection(TypeOfSection.PERSONAL, StringSection.EMPTY);
         EMPTY.setSection(TypeOfSection.ACHIEVEMENT, ListSection.EMPTY);
@@ -44,8 +44,8 @@ public class Resume implements Comparable<Resume>, Serializable {
     private Map<TypeOfSection, Section> sections = new EnumMap<>(TypeOfSection.class);
 
     public Resume() {
-        this.uuid = UUID.randomUUID();
-        this.fullName = EMPTY_STRING;
+//        this.uuid = UUID.randomUUID();
+//        this.fullName = EMPTY_STRING;
     }
 
     public Resume(String fullName) {
@@ -53,6 +53,8 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
     public Resume(UUID uuid, String fullName) {
+        Objects.requireNonNull(uuid, "uuid must not be null");
+        Objects.requireNonNull(fullName, "fullName must not be null");
         this.fullName = fullName;
         this.uuid = uuid;
     }

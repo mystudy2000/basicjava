@@ -1,7 +1,7 @@
 package webapp.model;
 
 public enum TypeOfContact {
- //   EMPTY("EMPTY"),
+    //   EMPTY("EMPTY"),
     HOMEPHONE("Телефон домашний"),
     MOBILEPHONE("Телефон мобильный"),
     MAIL("E-MAIL") {
@@ -41,6 +41,7 @@ public enum TypeOfContact {
         }
     };
 
+
     private final String title;
 
     TypeOfContact(String title) {
@@ -49,6 +50,13 @@ public enum TypeOfContact {
 
     public String getTitle() {
         return title;
+    }
+
+    public String toHtml5(String value) {
+
+        if (value == null) {
+            return "Отсутствует";
+        } else return value;
     }
 
     protected String toHtml0(String value) {

@@ -9,10 +9,6 @@ public class OrganizationSection extends Section {
     public static final OrganizationSection EMPTY = new OrganizationSection(Organization.EMPTY);
     private List<Organization> organizations;
 
-    public List<Organization> getOrganizationSection() {
-        return organizations;
-    }
-
     public OrganizationSection() {
     }
 
@@ -24,7 +20,7 @@ public class OrganizationSection extends Section {
         this(Arrays.asList(organizations));
     }
 
-    public List<Organization> getOrganizationsSection() {
+    public List<Organization> getOrganizations() {
         return organizations;
     }
 

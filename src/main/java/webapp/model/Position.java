@@ -24,11 +24,16 @@ public class Position implements Serializable {
 
     public static final Position EMPTY = new Position();
 
+    //   public Position() {
+//        this(EMPTY_DATE, EMPTY_DATE, EMPTY_STRING, EMPTY_STRING);
+//    }
     public Position() {
-        this(EMPTY_DATE, EMPTY_DATE, EMPTY_STRING, EMPTY_STRING);
     }
 
     public Position(LocalDate startDate, LocalDate endDate, String positionName, String description) {
+        Objects.requireNonNull(startDate, "startDate must not be null");
+        Objects.requireNonNull(endDate, "endDate must not be null");
+        Objects.requireNonNull(positionName, "title must not be null");
         this.startDate = startDate;
         this.endDate = endDate;
         this.positionName = positionName;

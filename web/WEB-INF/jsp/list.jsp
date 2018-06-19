@@ -11,20 +11,25 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <table border="1" cellpadding="8" cellspacing="0">
+    <a href="resume?action=add"><img src="img/add.png" style="margin: auto"></a>
+    <table border="1" cellpadding="8" cellspacing="0" style="margin: auto" >
         <tr>
-            <th>Имя</th>
+            <th>Фамилия Имя Отчество</th>
             <th>Email</th>
-            <th></th>
-            <th></th>
+            <th>Телефон дом.</th>
+            <th>Телефон моб.</th>
+            <th>Удалить</th>
+            <th>Изменить</th>
         </tr>
         <c:forEach items="${resumes}" var="resume">
             <jsp:useBean id="resume" type="webapp.model.Resume"/>
             <tr>
                 <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
-                <td><%=TypeOfContact.MAIL.toHtml(resume.getContact(TypeOfContact.MAIL))%></td>
-                <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="${pageContext.request.contextPath}/img/delete.png"></a></td>
-                <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="${pageContext.request.contextPath}/img/pencil.png"></a></td>
+                <th><%=TypeOfContact.MAIL.toHtml5(resume.getContact(TypeOfContact.MAIL))%></th>
+                <th><%=TypeOfContact.HOMEPHONE.toHtml5(resume.getContact(TypeOfContact.HOMEPHONE))%></th>
+                <th><%=TypeOfContact.MOBILEPHONE.toHtml5(resume.getContact(TypeOfContact.MOBILEPHONE))%></th>
+                <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="${pageContext.request.contextPath}/img/delete.png" align="center"></a></td>
+                <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="${pageContext.request.contextPath}/img/pencil.png" align="center"></a></td>
             </tr>
         </c:forEach>
     </table>
